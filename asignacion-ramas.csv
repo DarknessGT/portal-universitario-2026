@@ -1,0 +1,25 @@
+ESTUDIANTE,RAMA,MÓDULO
+01,est01-perfil,Perfil
+02,est02-notas,Notas
+03,est03-estado-academico,Estado académico
+04,est04-asistencia,Asistencia
+05,est05-calculadora,Calculadora
+06,est06-conversor,Conversor
+07,est07-edad,Edad
+08,est08-biblioteca,Biblioteca
+09,est09-horario,Horario
+10,est10-cursos,Cursos
+11,est11-creditos,Créditos
+12,est12-encuesta,Encuesta
+13,est13-contacto,Contacto
+14,est14-eventos,Eventos
+15,est15-calendario,Calendario
+16,est16-busqueda,Búsqueda
+17,est17-faq,FAQ
+18,est18-tema-visual,Tema visual
+19,est19-contador,Contador
+20,est20-tareas,Tareas
+21,est21-validacion,Validación
+22,est22-contrasena,Contraseña
+23,est23-sesion-simulada,Sesión simulada
+24,est24-reporte,Reporte

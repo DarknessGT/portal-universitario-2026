@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Proyecto colaborativo para prácticas de Calidad Continua, Git, CI/CD, Testing y DevSecOps.">
+  <title>Portal de Servicios Universitarios</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">Proyecto colaborativo · 24 estudiantes</p>
+      <h1>Portal de Servicios Universitarios</h1>
+      <p>Proyecto base para aplicar Git, Testing, Integración Continua, Pipelines, CD, DevOps y DevSecOps.</p>
+      <div class="status-row">
+        <span>24 módulos</span><span>1 repositorio</span><span>1 producto integrado</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <a href="#modulos">Módulos</a>
+    <a href="#flujo">Flujo de trabajo</a>
+    <a href="#reglas">Reglas</a>
+  </nav>
+
+  <main class="container">
+    <section class="intro">
+      <h2>Proyecto base</h2>
+      <p>Cada estudiante debe desarrollar exclusivamente el módulo asignado en su propia rama de Git. Los módulos están deliberadamente incompletos para permitir su implementación e integración.</p>
+    </section>
+
+    <section id="modulos">
+      <div class="section-heading">
+        <div><span class="kicker">Actividades</span><h2>24 módulos individuales</h2></div>
+        <input id="moduleSearch" type="search" placeholder="Buscar módulo..." aria-label="Buscar módulo">
+      </div>
+      <div id="moduleGrid" class="module-grid">
+        <a class="module-card" href="modules/01-perfil/index.html" data-module="01">
+      <span class="number">01</span>
+      <div><h3>Perfil</h3><p>Registrar nombre, carné, carrera y semestre.</p></div>
+    </a>
+<a class="module-card" href="modules/02-notas/index.html" data-module="02">
+      <span class="number">02</span>
+      <div><h3>Notas</h3><p>Ingresar 3 notas y calcular promedio.</p></div>
+    </a>
+<a class="module-card" href="modules/03-estado-academico/index.html" data-module="03">
+      <span class="number">03</span>
+      <div><h3>Estado académico</h3><p>Mostrar Aprobado/Reprobado según promedio.</p></div>
+    </a>
+<a class="module-card" href="modules/04-asistencia/index.html" data-module="04">
+      <span class="number">04</span>
+      <div><h3>Asistencia</h3><p>Registrar clases y calcular porcentaje de asistencia.</p></div>
+    </a>
+<a class="module-card" href="modules/05-calculadora/index.html" data-module="05">
+      <span class="number">05</span>
+      <div><h3>Calculadora</h3><p>Realizar suma, resta, multiplicación y división.</p></div>
+    </a>
+<a class="module-card" href="modules/06-conversor/index.html" data-module="06">
+      <span class="number">06</span>
+      <div><h3>Conversor</h3><p>Convertir Celsius ↔ Fahrenheit.</p></div>
+    </a>
+<a class="module-card" href="modules/07-edad/index.html" data-module="07">
+      <span class="number">07</span>
+      <div><h3>Edad</h3><p>Calcular edad a partir de fecha de nacimiento.</p></div>
+    </a>
+<a class="module-card" href="modules/08-biblioteca/index.html" data-module="08">
+      <span class="number">08</span>
+      <div><h3>Biblioteca</h3><p>Buscar libros dentro de una lista.</p></div>
+    </a>
+<a class="module-card" href="modules/09-horario/index.html" data-module="09">
+      <span class="number">09</span>
+      <div><h3>Horario</h3><p>Mostrar horario según día seleccionado.</p></div>
+    </a>
+<a class="module-card" href="modules/10-cursos/index.html" data-module="10">
+      <span class="number">10</span>
+      <div><h3>Cursos</h3><p>Registrar y visualizar cursos asignados.</p></div>
+    </a>
+<a class="module-card" href="modules/11-creditos/index.html" data-module="11">
+      <span class="number">11</span>
+      <div><h3>Créditos</h3><p>Calcular total de créditos académicos.</p></div>
+    </a>
+<a class="module-card" href="modules/12-encuesta/index.html" data-module="12">
+      <span class="number">12</span>
+      <div><h3>Encuesta</h3><p>Registrar una respuesta y mostrar resultado.</p></div>
+    </a>
+<a class="module-card" href="modules/13-contacto/index.html" data-module="13">
+      <span class="number">13</span>
+      <div><h3>Contacto</h3><p>Formulario con nombre, correo y mensaje.</p></div>
+    </a>
+<a class="module-card" href="modules/14-eventos/index.html" data-module="14">
+      <span class="number">14</span>
+      <div><h3>Eventos</h3><p>Mostrar y filtrar eventos universitarios.</p></div>
+    </a>
+<a class="module-card" href="modules/15-calendario/index.html" data-module="15">
+      <span class="number">15</span>
+      <div><h3>Calendario</h3><p>Mostrar fechas académicas importantes.</p></div>
+    </a>
+<a class="module-card" href="modules/16-busqueda/index.html" data-module="16">
+      <span class="number">16</span>
+      <div><h3>Búsqueda</h3><p>Buscar servicios disponibles en el portal.</p></div>
+    </a>
+<a class="module-card" href="modules/17-faq/index.html" data-module="17">
+      <span class="number">17</span>
+      <div><h3>FAQ</h3><p>Preguntas frecuentes desplegables.</p></div>
+    </a>
+<a class="module-card" href="modules/18-tema-visual/index.html" data-module="18">
+      <span class="number">18</span>
+      <div><h3>Tema visual</h3><p>Cambiar entre modo claro y oscuro.</p></div>
+    </a>
+<a class="module-card" href="modules/19-contador/index.html" data-module="19">
+      <span class="number">19</span>
+      <div><h3>Contador</h3><p>Contabilizar visitas utilizando almacenamiento local.</p></div>
+    </a>
+<a class="module-card" href="modules/20-tareas/index.html" data-module="20">
+      <span class="number">20</span>
+      <div><h3>Tareas</h3><p>Crear una lista de tareas pendientes.</p></div>
+    </a>
+<a class="module-card" href="modules/21-validacion/index.html" data-module="21">
+      <span class="number">21</span>
+      <div><h3>Validación</h3><p>Validar datos de un formulario de inscripción.</p></div>
+    </a>
+<a class="module-card" href="modules/22-contrasena/index.html" data-module="22">
+      <span class="number">22</span>
+      <div><h3>Contraseña</h3><p>Evaluar requisitos básicos de una contraseña.</p></div>
+    </a>
+<a class="module-card" href="modules/23-sesion-simulada/index.html" data-module="23">
+      <span class="number">23</span>
+      <div><h3>Sesión simulada</h3><p>Login y logout local de demostración.</p></div>
+    </a>
+<a class="module-card" href="modules/24-reporte/index.html" data-module="24">
+      <span class="number">24</span>
+      <div><h3>Reporte</h3><p>Generar un resumen de información registrada.</p></div>
+    </a>
+      </div>
+    </section>
+
+    <section id="flujo" class="panel">
+      <span class="kicker">Calidad continua</span>
+      <h2>Flujo de trabajo</h2>
+      <div class="workflow">
+        <span>Rama</span><b>→</b><span>Desarrollo</span><b>→</b><span>Commit</span><b>→</b>
+        <span>Push</span><b>→</b><span>Pipeline</span><b>→</b><span>Testing</span><b>→</b>
+        <span>Review</span><b>→</b><span>Merge</span>
+      </div>
+    </section>
+
+    <section id="reglas" class="panel">
+      <span class="kicker">Importante</span>
+      <h2>Reglas del proyecto</h2>
+      <ul class="rules">
+        <li>No trabajar directamente sobre <code>main</code>.</li>
+        <li>Cada estudiante utiliza una rama individual.</li>
+        <li>Realizar al menos 3 commits significativos.</li>
+        <li>Diseñar 5 casos de prueba por módulo.</li>
+        <li>Automatizar al menos 1 caso de prueba.</li>
+        <li>Validar entradas y aplicar controles básicos de seguridad.</li>
+        <li>Solicitar revisión antes de integrar cambios.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Portal de Servicios Universitarios</strong>
+    <span>Versión base 1.0 · Aseguramiento de la Calidad de Software</span>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
