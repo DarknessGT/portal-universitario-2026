@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 19 - Contador</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    #app-19 { display: block; min-width: 0; border-style: solid; }
+    #app-19 .counter-summary { text-align: center; }
+    #app-19 .counter-label { margin: 0; color: #56677b; font-weight: 600; }
+    #app-19 .counter-total { display: block; margin: 8px 0; color: #0b5d9a; font-size: clamp(2rem, 8vw, 4rem); font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; }
+    #app-19 .counter-help { color: #56677b; }
+    #app-19 .counter-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 24px 0; }
+    #app-19 .counter-dates div { padding: 16px; background: #e8f2fb; border-radius: 10px; }
+    #app-19 dt { font-weight: 700; }
+    #app-19 dd { margin: 6px 0 0; overflow-wrap: anywhere; }
+    #app-19 h2 { margin-bottom: 4px; font-size: 1.2rem; }
+    #app-19 ol { padding-left: 24px; }
+    #app-19 li { padding: 8px 0; border-bottom: 1px solid #dfe7f0; overflow-wrap: anywhere; }
+    @media (max-width: 600px) {
+      #app-19 { padding: 16px; }
+      #app-19 .counter-dates { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
   <main class="module-page">
@@ -15,13 +33,34 @@
       <p><strong>Actividad:</strong> Contabilizar visitas utilizando almacenamiento local.</p>
 
       <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
+        <strong>Tu actividad en este módulo</strong>
+        <p>Cada apertura o recarga del módulo 19 suma una visita. El conteo corresponde únicamente a este navegador y perfil; no representa las visitas de todas las personas al portal.</p>
       </div>
 
       <div id="app-19" class="student-area">
-        <!-- TODO ESTUDIANTE 19: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <div class="counter-summary">
+          <p id="etiqueta-total-19" class="counter-label">Visitas en este navegador</p>
+          <span id="contador-visitas-19" class="counter-total" aria-labelledby="etiqueta-total-19">—</span>
+        </div>
+        <dl class="counter-dates">
+          <div>
+            <dt>Contando desde</dt>
+            <dd id="fecha-inicio-19">Sin registro disponible</dd>
+          </div>
+          <div>
+            <dt>Visita anterior</dt>
+            <dd id="visita-anterior-19">Sin registro disponible</dd>
+          </div>
+        </dl>
+        <section aria-labelledby="titulo-historial-19">
+          <h2 id="titulo-historial-19">Últimas 10 visitas</h2>
+          <p class="counter-help">De la más reciente a la más antigua, incluyendo la visita actual cuando se guarda correctamente.</p>
+          <ol id="historial-visitas-19">
+            <li>Sin visitas registradas.</li>
+          </ol>
+        </section>
+        <p class="counter-help">Las fechas se muestran en la zona horaria de tu navegador. Borrar los datos del sitio elimina el conteo y el historial.</p>
+        <noscript>Activa JavaScript para registrar y consultar tus visitas.</noscript>
       </div>
 
       <p id="resultado-19" class="result" aria-live="polite"></p>
