@@ -3,31 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo 15 - Calendario</title>
+  <title>Calendario académico 2026 - Portal universitario</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <link rel="stylesheet" href="calendario.css">
 </head>
-<body>
+<body class="calendar-module">
   <main class="module-page">
     <a class="back-link" href="../../index.html">← Volver al portal</a>
     <section class="module-workspace">
       <span class="student-badge">Estudiante 15</span>
-      <h1>Calendario</h1>
-      <p><strong>Actividad:</strong> Mostrar fechas académicas importantes.</p>
+      <h1>Calendario académico 2026</h1>
+      <p class="calendar-intro">Fechas importantes del calendario general de la Universidad Mariano Gálvez de Guatemala.</p>
 
-      <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
+      <div class="calendar-source">
+        <strong>Fuente oficial · Calendario general 2026</strong>
+        <p>Fechas consultadas el 28 de septiembre de 2026. Algunas carreras y posgrados tienen calendarios propios; confirma siempre los cambios en el <a href="https://umg.edu.gt/calendario" target="_blank" rel="noopener noreferrer">calendario oficial de la UMG<span class="sr-only"> (abre en una pestaña nueva)</span></a>.</p>
       </div>
 
       <div id="app-15" class="student-area">
-        <!-- TODO ESTUDIANTE 15: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <div class="calendar-layout">
+          <section class="calendar-panel" aria-label="Vista mensual">
+            <div class="calendar-toolbar">
+              <div>
+                <span class="calendar-overline">Explora el año</span>
+                <h2 id="mes-15">Calendario 2026</h2>
+              </div>
+              <nav class="calendar-navigation" aria-label="Navegación del calendario">
+                <button id="anterior-15" type="button" aria-label="Mes anterior" title="Mes anterior">‹</button>
+                <button id="hoy-15" type="button">Hoy</button>
+                <button id="siguiente-15" type="button" aria-label="Mes siguiente" title="Mes siguiente">›</button>
+              </nav>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+            </div>
+            <div id="dias-15" class="calendar-days" role="group" aria-label="Días del mes"></div>
+            <p class="calendar-hint"><span class="calendar-key" aria-hidden="true"></span> Selecciona un día marcado para ver sus actividades.</p>
+          </section>
+
+          <section class="calendar-panel calendar-agenda" aria-labelledby="agenda-titulo-15">
+            <div class="calendar-agenda-heading">
+              <div>
+                <span class="calendar-overline">Fechas importantes</span>
+                <h2 id="agenda-titulo-15">Agenda del mes</h2>
+              </div>
+              <span id="total-15" class="calendar-total"></span>
+            </div>
+            <label class="calendar-filter-label" for="filtro-15">Mostrar categoría</label>
+            <select id="filtro-15">
+              <option value="todas">Todas las categorías</option>
+              <option value="actividades">Actividades académicas</option>
+              <option value="inscripciones">Inscripciones</option>
+              <option value="evaluaciones">Evaluaciones</option>
+              <option value="asuetos">Asuetos</option>
+            </select>
+            <button id="limpiar-15" class="calendar-clear" type="button" hidden>Ver todo el mes</button>
+            <ul id="eventos-15" class="calendar-events"></ul>
+            <p id="sin-eventos-15" class="calendar-empty" hidden>No hay fechas publicadas para esta selección.</p>
+          </section>
+        </div>
       </div>
 
-      <p id="resultado-15" class="result" aria-live="polite"></p>
+      <p id="resultado-15" class="sr-only" role="status" aria-live="polite"></p>
     </section>
   </main>
-  <script src="../../js/app.js"></script>
   <script src="modulo.js"></script>
 </body>
 </html>
