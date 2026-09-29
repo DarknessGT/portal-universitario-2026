@@ -1,0 +1,17 @@
+test_01_primera_visita (__main__.Contador19Tests.test_01_primera_visita) ... ok
+test_02_recarga_y_visita_anterior (__main__.Contador19Tests.test_02_recarga_y_visita_anterior) ... ok
+test_03_regreso_desde_portal (__main__.Contador19Tests.test_03_regreso_desde_portal) ... ok
+test_04_historial_limitado (__main__.Contador19Tests.test_04_historial_limitado) ... ok
+test_05_registros_corruptos (__main__.Contador19Tests.test_05_registros_corruptos) ... ok
+test_06_lectura_bloqueada (__main__.Contador19Tests.test_06_lectura_bloqueada) ... ok
+test_07_escritura_bloqueada_con_registro (__main__.Contador19Tests.test_07_escritura_bloqueada_con_registro) ... ok
+test_08_escritura_bloqueada_sin_registro (__main__.Contador19Tests.test_08_escritura_bloqueada_sin_registro) ... ok
+test_09_otros_datos_intactos (__main__.Contador19Tests.test_09_otros_datos_intactos) ... ok
+test_10_limite_seguro (__main__.Contador19Tests.test_10_limite_seguro) ... ok
+test_11_persistencia_tras_cerrar_navegador (__main__.Contador19Tests.test_11_persistencia_tras_cerrar_navegador) ... ok
+test_12_vista_movil_y_consola (__main__.Contador19Tests.test_12_vista_movil_y_consola) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 11.508s
+
+OK
