@@ -1,0 +1,27 @@
+{
+  "name": "clase-28-sep",
+  "version": "1.0.0",
+  "description": "Proyecto colaborativo para 24 estudiantes del curso de Aseguramiento de la Calidad de Software.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/test_17_faq.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarknessGT/portal-universitario-2026.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DarknessGT/portal-universitario-2026/issues"
+  },
+  "homepage": "https://github.com/DarknessGT/portal-universitario-2026#readme",
+  "dependencies": {
+    "selenium-webdriver": "^4.49.0"
+  }
+}
