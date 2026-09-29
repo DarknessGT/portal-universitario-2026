@@ -6,11 +6,11 @@ import { join } from "node:path";
 
 const pageUrl = new URL("../modules/05-calculadora/index.html", import.meta.url).href;
 const cases = [
-  { id: "CP-01", name: "Suma correcta", input: "7 + 5 =", keys: ["7", "+", "5", "="], expected: "12" },
-  { id: "CP-02", name: "Resta correcta", input: "10 − 4 =", keys: ["1", "0", "-", "4", "="], expected: "6" },
-  { id: "CP-03", name: "Multiplicación correcta", input: "5 × 6 =", keys: ["5", "*", "6", "="], expected: "30" },
-  { id: "CP-04", name: "División correcta", input: "20 ÷ 4 =", keys: ["2", "0", "/", "4", "="], expected: "5" },
-  { id: "CP-05", name: "División entre cero", input: "10 ÷ 0 =", keys: ["1", "0", "/", "0", "="], expected: "No se puede dividir entre cero." }
+  { id: "CP-01", name: "Suma correcta", input: "7 + 5 =", keys: ["7", "+", "5", "="], expected: "12", expression: "7 + 5 = 12" },
+  { id: "CP-02", name: "Resta correcta", input: "10 − 4 =", keys: ["1", "0", "-", "4", "="], expected: "6", expression: "10 − 4 = 6" },
+  { id: "CP-03", name: "Multiplicación correcta", input: "5 × 6 =", keys: ["5", "*", "6", "="], expected: "30", expression: "5 × 6 = 30" },
+  { id: "CP-04", name: "División correcta", input: "20 ÷ 4 =", keys: ["2", "0", "/", "4", "="], expected: "5", expression: "20 ÷ 4 = 5" },
+  { id: "CP-05", name: "División entre cero", input: "10 ÷ 0 =", keys: ["1", "0", "/", "0", "="], expected: "No se puede dividir entre cero.", expression: "10 ÷ 0 =" }
 ];
 const testDirectory = await mkdtemp(join(tmpdir(), "calculadora-test-"));
 const screenshotDirectory = join(testDirectory, "capturas");
@@ -129,6 +129,18 @@ try {
     assert.equal(result, true, `Debe existir el botón para ${action} ${value || ""}.`);
   }
 
+  async function focusAndClickButton(action, value) {
+    const focused = await evaluate(`(() => {
+      const button = [...document.querySelectorAll("#app-05 button[data-action]")]
+        .find(item => item.dataset.action === ${JSON.stringify(action)} && item.dataset.value === ${JSON.stringify(value)});
+      if (!button) return false;
+      button.focus();
+      button.click();
+      return document.activeElement === button;
+    })()`);
+    assert.equal(focused, true, `Debe enfocar y activar el botón ${action} ${value || ""}.`);
+  }
+
   async function reset() {
     await clickButton("clear");
   }
@@ -142,8 +154,14 @@ try {
       else await clickButton("digit", key);
     }
 
-    const actual = await evaluate(`({ display: document.getElementById("pantalla-05").textContent, status: document.getElementById("resultado-05").textContent })`);
+    const actual = await evaluate(`({
+      display: document.getElementById("valor-05").textContent,
+      expression: document.getElementById("expresion-05").textContent,
+      status: document.getElementById("resultado-05").textContent
+    })`);
     assert.equal(testCase.id === "CP-05" ? actual.status : actual.display, testCase.expected, testCase.id);
+    assert.equal(actual.expression, testCase.expression, `Expresión de ${testCase.id}`);
+    if (testCase.id !== "CP-05") assert.equal(actual.status, "", "El mensaje de estado debe quedar vacío al completar una operación.");
     assert.doesNotMatch(`${actual.display} ${actual.status}`, /NaN|Infinity/);
     results.push({ ...testCase, actual: testCase.id === "CP-05" ? actual.status : actual.display, status: "PASS" });
   }
@@ -155,23 +173,23 @@ try {
   await clickButton("operator", "*");
   await clickButton("digit", "5");
   await clickButton("calculate");
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "0.5", "Debe calcular correctamente números decimales.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "0.5", "Debe calcular correctamente números decimales.");
 
   await reset();
   for (const [action, value] of [["digit", "7"], ["operator", "-"], ["digit", "1"], ["digit", "2"], ["calculate", undefined]]) {
     await clickButton(action, value);
   }
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "-5", "Debe mostrar resultados negativos correctamente.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "-5", "Debe mostrar resultados negativos correctamente.");
 
   await reset();
   for (const [action, value] of [["digit", "2"], ["operator", "+"], ["digit", "3"], ["operator", "*"], ["digit", "4"], ["calculate", undefined]]) {
     await clickButton(action, value);
   }
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "20", "Las operaciones encadenadas deben ejecutarse en orden.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "20", "Las operaciones encadenadas deben ejecutarse en orden.");
 
   await reset();
   for (const character of "1234567890123") await clickButton("digit", character);
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "123456789012", "Debe limitar cada número a doce dígitos.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "123456789012", "Debe limitar cada número a doce dígitos.");
 
   await reset();
   await clickButton("digit", "2");
@@ -179,14 +197,38 @@ try {
   await clickButton("operator", "*");
   await clickButton("digit", "3");
   await clickButton("calculate");
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "6", "Un operador consecutivo debe reemplazar al pendiente.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "6", "Un operador consecutivo debe reemplazar al pendiente.");
 
   await reset();
   for (const key of ["1", "0", "/"]) await clickButton(["+", "-", "*", "/"].includes(key) ? "operator" : "digit", key);
   await clickButton("calculate");
   assert.match(await evaluate('document.getElementById("resultado-05").textContent'), /Ingresa el segundo número/);
   await reset();
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "0", "C debe restablecer la calculadora.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "0", "C debe restablecer la calculadora.");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "", "C debe limpiar la expresión.");
+
+  await clickButton("digit", "5");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "");
+  await clickButton("operator", "*");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "5 ×");
+  await clickButton("digit", "2");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "5 × 2");
+  await clickButton("digit", "5");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "5 × 25");
+  await clickButton("calculate");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "5 × 25 = 125");
+
+  await reset();
+  for (const [action, value] of [["digit", "5"], ["operator", "+"], ["digit", "5"], ["calculate", undefined]]) {
+    await clickButton(action, value);
+  }
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "5 + 5 = 10");
+  await clickButton("operator", "*");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "10 ×");
+  await clickButton("digit", "3");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "10 × 3");
+  await clickButton("calculate");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "10 × 3 = 30");
 
   for (const width of [320, 375, 768, 1024]) {
     const height = width < 700 ? 812 : 960;
@@ -212,7 +254,8 @@ try {
         buttonCount: buttons.length,
         buttonsVisible: buttons.every(button => button.getBoundingClientRect().left >= app.getBoundingClientRect().left && button.getBoundingClientRect().right <= app.getBoundingClientRect().right + 1),
         minimumButtonHeight: Math.min(...buttons.map(button => button.getBoundingClientRect().height)),
-        display: document.getElementById("pantalla-05").textContent
+        display: document.getElementById("valor-05").textContent,
+        expression: document.getElementById("expresion-05").textContent
       };
     })()`);
     assert.equal(layout.pageWidth, layout.visibleWidth, `No debe existir scroll horizontal a ${width}px.`);
@@ -233,9 +276,9 @@ try {
     returnByValue: true
   }, sessionId);
   await pressKey("a");
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "0", "Las teclas ajenas a la calculadora deben ignorarse.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "0", "Las teclas ajenas a la calculadora deben ignorarse.");
   for (const key of ["1", "0", "/", "4", "Enter"]) await pressKey(key);
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "2.5", "El teclado y Enter con la pantalla enfocada deben funcionar.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "2.5", "El teclado y Enter con la pantalla enfocada deben funcionar.");
 
   await reset();
   await send("Runtime.evaluate", {
@@ -243,10 +286,23 @@ try {
     returnByValue: true
   }, sessionId);
   for (const key of ["0", ",", "1", "+", "0", ",", "2", "Enter"]) await pressKey(key);
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "0.3", "El teclado debe aceptar la coma decimal.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "0.3", "El teclado debe aceptar la coma decimal.");
   await clickButton("digit", "8");
   await pressKey("Escape");
-  assert.equal(await evaluate('document.getElementById("pantalla-05").textContent'), "0", "Escape debe restablecer completamente la calculadora.");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "0", "Escape debe restablecer completamente la calculadora.");
+
+  await reset();
+  await focusAndClickButton("digit", "5");
+  await clickButton("operator", "*");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "5 ×");
+  await focusAndClickButton("digit", "5");
+  assert.equal(await evaluate("document.activeElement.dataset.value"), "5", "El segundo operando debe conservar el foco.");
+  await pressKey("Enter");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "25", "Enter en un botón enfocado debe calcular.");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "5 × 5 = 25");
+  await pressKey("Enter");
+  assert.equal(await evaluate('document.getElementById("valor-05").textContent'), "25", "Enter no debe volver a activar el botón enfocado.");
+  assert.equal(await evaluate('document.getElementById("expresion-05").textContent'), "5 × 5 = 25");
 
   await send("Emulation.setDeviceMetricsOverride", { width: 320, height: 812, deviceScaleFactor: 1, mobile: true }, sessionId);
   await reset();
@@ -255,7 +311,7 @@ try {
   for (const digit of "999999999999") await clickButton("digit", digit);
   await clickButton("calculate");
   const longResult = await evaluate(`(() => {
-    const display = document.getElementById("pantalla-05");
+    const display = document.getElementById("valor-05");
     return {
       value: display.textContent,
       displayWidth: display.clientWidth,

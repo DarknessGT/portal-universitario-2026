@@ -6,9 +6,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const calculator = document.getElementById("app-05");
   const display = document.getElementById("pantalla-05");
+  const expression = document.getElementById("expresion-05");
+  const valueDisplay = document.getElementById("valor-05");
   const status = document.getElementById("resultado-05");
 
-  if (!calculator || !display || !status) return;
+  if (!calculator || !display || !expression || !valueDisplay || !status) return;
 
   const MAX_DIGITS = 12;
   let displayValue = "0";
@@ -18,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let waitingForOperand = false;
   let justCalculated = false;
   let hasError = false;
+  let expressionValue = "";
+
+  const operatorSymbol = selectedOperator => ({ "*": "×", "/": "÷", "-": "−" }[selectedOperator] ?? selectedOperator);
 
   const formatNumber = value => {
     if (Object.is(value, -0)) return "0";
@@ -25,7 +30,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const render = () => {
-    display.textContent = displayValue;
+    valueDisplay.textContent = displayValue;
+  };
+
+  const renderExpression = () => {
+    expression.textContent = expressionValue;
+  };
+
+  const updatePendingExpression = () => {
+    if (operator === null || accumulator === null) {
+      expressionValue = "";
+    } else {
+      expressionValue = `${formatNumber(accumulator)} ${operatorSymbol(operator)}`;
+      if (!waitingForOperand) expressionValue += ` ${displayValue}`;
+    }
+    renderExpression();
   };
 
   const clear = () => {
@@ -36,7 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
     waitingForOperand = false;
     justCalculated = false;
     hasError = false;
+    expressionValue = "";
     status.textContent = "";
+    renderExpression();
     render();
   };
 
@@ -48,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
     waitingForOperand = false;
     justCalculated = false;
     hasError = false;
+    expressionValue = "";
   };
 
   const showError = message => {
@@ -97,7 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
     operator = nextOperator;
     waitingForOperand = true;
     justCalculated = false;
-    status.textContent = `Operación pendiente: ${formatNumber(accumulator)} ${operator === "*" ? "×" : operator === "/" ? "÷" : operator === "-" ? "−" : operator}`;
+    status.textContent = "";
+    updatePendingExpression();
     render();
   };
 
@@ -118,6 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hasError = false;
     justCalculated = false;
     status.textContent = "";
+    updatePendingExpression();
     render();
   };
 
@@ -141,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hasError = false;
     justCalculated = false;
     status.textContent = "";
+    updatePendingExpression();
     render();
   };
 
@@ -154,9 +179,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const left = accumulator;
     const right = currentValue;
     const selectedOperator = operator;
+    const completedExpression = `${formatNumber(left)} ${operatorSymbol(selectedOperator)} ${formatNumber(right)}`;
     const result = calculate(left, right, selectedOperator);
 
     if (result === null || !Number.isFinite(result)) {
+      expressionValue = `${completedExpression} =`;
+      renderExpression();
       showError(result === null ? "No se puede dividir entre cero." : "El resultado está fuera del rango permitido.");
       return;
     }
@@ -167,7 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
     operator = null;
     waitingForOperand = false;
     justCalculated = true;
-    status.textContent = `${formatNumber(left)} ${selectedOperator === "*" ? "×" : selectedOperator === "/" ? "÷" : selectedOperator === "-" ? "−" : selectedOperator} ${formatNumber(right)} = ${displayValue}`;
+    expressionValue = `${completedExpression} = ${displayValue}`;
+    status.textContent = "";
+    renderExpression();
     render();
   };
 
@@ -186,20 +216,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   calculator.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      calculateResult();
+      return;
+    }
+
     if (event.key === "Escape") {
       event.preventDefault();
       clear();
       return;
     }
 
-    if ((event.key === "Enter" || event.key === " ") && event.target instanceof HTMLButtonElement) return;
+    if (event.key === " " && event.target instanceof HTMLButtonElement) return;
 
     if (/^[0-9]$/.test(event.key)) perform("digit", event.key);
     else if (event.key === "." || event.key === ",") perform("decimal");
     else if (["+", "-", "−", "*", "x", "X", "×", "/", "÷"].includes(event.key)) {
       const operators = { "−": "-", x: "*", X: "*", "×": "*", "/": "/", "÷": "/" };
       perform("operator", operators[event.key] ?? event.key);
-    } else if (event.key === "=" || event.key === "Enter") {
+    } else if (event.key === "=") {
       event.preventDefault();
       calculateResult();
     }

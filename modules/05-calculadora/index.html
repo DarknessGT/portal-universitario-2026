@@ -26,8 +26,10 @@
 
     .calculator-display {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: stretch;
       justify-content: flex-end;
+      gap: 2px;
       width: 100%;
       min-width: 0;
       min-height: 72px;
@@ -38,9 +40,25 @@
       border-radius: 10px;
       background: white;
       color: #172033;
+      text-align: right;
+    }
+
+    .calculator-expression {
+      display: block;
+      min-height: 1.25em;
+      overflow-wrap: anywhere;
+      color: #56677b;
+      font-size: clamp(.8rem, 3vw, 1rem);
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .calculator-value {
+      display: block;
+      min-width: 0;
+      overflow-wrap: anywhere;
       font-size: clamp(1.25rem, 6vw, 2rem);
       font-weight: 700;
-      text-align: right;
     }
 
     .calculator-display:focus-visible,
@@ -113,7 +131,10 @@
 
       <div id="app-05" class="student-area" role="group" aria-label="Calculadora">
         <div class="calculator-shell">
-          <output id="pantalla-05" class="calculator-display" tabindex="0" aria-label="Pantalla de la calculadora" aria-describedby="resultado-05" aria-live="off">0</output>
+          <output id="pantalla-05" class="calculator-display" tabindex="0" aria-label="Pantalla de la calculadora" aria-describedby="expresion-05 resultado-05" aria-live="off">
+            <span id="expresion-05" class="calculator-expression" aria-live="polite"></span>
+            <span id="valor-05" class="calculator-value">0</span>
+          </output>
 
           <div id="calculadora-botones" class="calculator-keys" role="group" aria-label="Teclas de la calculadora">
             <button class="calculator-button calculator-button--clear" type="button" data-action="clear" aria-label="Limpiar">C</button>
