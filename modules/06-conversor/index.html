@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 06 - Conversor</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
   <main class="module-page">
@@ -14,14 +15,84 @@
       <h1>Conversor</h1>
       <p><strong>Actividad:</strong> Convertir Celsius ↔ Fahrenheit.</p>
 
-      <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
-      </div>
-
       <div id="app-06" class="student-area">
-        <!-- TODO ESTUDIANTE 06: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <form id="form-conversor-06" class="conv-card" data-sentido="c-f" novalidate autocomplete="off">
+          <div class="conv-card-cabecera">
+            <span id="sentido-06" class="conv-sentido">Celsius → Fahrenheit</span>
+            <code id="formula-06" class="conv-formula">°F = °C × 9/5 + 32</code>
+          </div>
+
+          <div class="conv-panel">
+            <div class="conv-campo">
+              <label for="entrada-06">Temperatura en <span id="unidad-entrada-06">Celsius</span></label>
+              <div class="conv-caja">
+                <input id="entrada-06" name="entrada" type="text" inputmode="decimal"
+                       placeholder="Ej. 36.6" aria-describedby="ayuda-06 error-06">
+                <span id="simbolo-entrada-06" class="conv-simbolo">°C</span>
+              </div>
+              <small id="ayuda-06" class="conv-ayuda">Acepta punto o coma decimal. Mínimo: −273.15 °C.</small>
+            </div>
+
+            <button id="btn-invertir-06" class="conv-invertir" type="button"
+                    aria-label="Invertir sentido de la conversión" title="Invertir sentido">⇄</button>
+
+            <div class="conv-campo">
+              <label for="salida-06">Resultado en <span id="unidad-salida-06">Fahrenheit</span></label>
+              <div class="conv-caja conv-caja--salida">
+                <output id="salida-06" for="entrada-06">—</output>
+                <span id="simbolo-salida-06" class="conv-simbolo">°F</span>
+              </div>
+              <small class="conv-ayuda">Redondeado a 2 decimales.</small>
+            </div>
+          </div>
+
+          <p id="error-06" class="conv-error" role="alert" hidden></p>
+
+          <div class="conv-acciones">
+            <button id="btn-convertir-06" class="conv-btn conv-btn--primario" type="submit">Convertir</button>
+            <button id="btn-limpiar-06" class="conv-btn conv-btn--secundario" type="reset">Limpiar</button>
+          </div>
+        </form>
+
+        <div class="conv-extras">
+          <div class="conv-columna">
+            <section class="conv-bloque" aria-labelledby="rapidas-titulo-06">
+              <h2 id="rapidas-titulo-06" class="conv-subtitulo">Conversiones rápidas</h2>
+              <div id="rapidas-06" class="conv-chips">
+                <button type="button" class="conv-chip" data-celsius="-40"><strong>−40 °C</strong><span>Escalas iguales</span></button>
+                <button type="button" class="conv-chip" data-celsius="0"><strong>0 °C</strong><span>Congelación</span></button>
+                <button type="button" class="conv-chip" data-celsius="20"><strong>20 °C</strong><span>Ambiente</span></button>
+                <button type="button" class="conv-chip" data-celsius="37"><strong>37 °C</strong><span>Cuerpo humano</span></button>
+                <button type="button" class="conv-chip" data-celsius="100"><strong>100 °C</strong><span>Ebullición</span></button>
+              </div>
+            </section>
+
+            <section class="conv-bloque" aria-labelledby="termometro-titulo-06">
+              <h2 id="termometro-titulo-06" class="conv-subtitulo">Indicador de temperatura</h2>
+              <div id="termometro-06" class="conv-termometro" data-estado="sin-datos" style="--nivel: 0%">
+                <div class="conv-termometro-barra">
+                  <span id="termometro-marcador-06" class="conv-termometro-marcador"></span>
+                </div>
+                <div class="conv-termometro-marcas" aria-hidden="true">
+                  <span style="--pos: 0%">−40°</span>
+                  <span style="--pos: 25%">0°</span>
+                  <span style="--pos: 48.125%">37°</span>
+                  <span style="--pos: 87.5%">100°</span>
+                </div>
+              </div>
+              <p class="conv-termometro-estado">Estado: <strong id="termometro-etiqueta-06">Sin datos</strong></p>
+            </section>
+          </div>
+
+          <section class="conv-bloque" aria-labelledby="historial-titulo-06">
+            <div class="conv-bloque-cabecera">
+              <h2 id="historial-titulo-06" class="conv-subtitulo">Historial</h2>
+              <button id="btn-borrar-historial-06" class="conv-enlace" type="button" disabled>Borrar</button>
+            </div>
+            <ol id="historial-06" class="conv-historial"></ol>
+            <p id="historial-vacio-06" class="conv-vacio">Aún no hay conversiones. Aquí se mostrarán las últimas 5.</p>
+          </section>
+        </div>
       </div>
 
       <p id="resultado-06" class="result" aria-live="polite"></p>

@@ -1,0 +1,435 @@
+/* MÓDULO 06: Conversor — estilos propios.
+   Todos los selectores están limitados a #app-06 para no afectar
+   elementos fuera del módulo. Complementa a ../../css/estilos.css. */
+
+#app-06 {
+  --conv-primario: #0b5d9a;
+  --conv-primario-2: #1167a8;
+  --conv-primario-suave: #e8f2fb;
+  --conv-texto: #172033;
+  --conv-texto-suave: #56677b;
+  --conv-borde: #dfe7f0;
+  --conv-borde-fuerte: #b9c8d9;
+  --conv-frio: #2b7de9;
+  --conv-caliente: #d9480f;
+  --conv-error: #c0392b;
+  --conv-error-fondo: #fdecea;
+}
+
+/* Ajuste del contenedor compartido .student-area: se conserva su fondo,
+   pero se reemplaza el centrado en grid y el borde punteado del placeholder. */
+#app-06.student-area {
+  display: block;
+  place-items: normal;
+  min-height: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--conv-borde);
+  text-align: left;
+}
+
+/* ---------- Tarjeta principal ---------- */
+
+#app-06 .conv-card {
+  background: white;
+  border: 1px solid var(--conv-borde);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 8px 24px #1a365d0c;
+}
+
+#app-06 .conv-card-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+#app-06 .conv-sentido {
+  display: inline-block;
+  background: linear-gradient(120deg, #0b315c, var(--conv-primario-2));
+  color: white;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 800;
+  font-size: .88rem;
+}
+
+#app-06 .conv-formula {
+  color: var(--conv-texto-suave);
+  font-size: .85rem;
+}
+
+#app-06 .conv-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+}
+
+#app-06 .conv-campo label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+#app-06 .conv-caja {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  border: 1px solid var(--conv-borde-fuerte);
+  border-radius: 12px;
+  background: white;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+#app-06 .conv-caja:focus-within {
+  border-color: var(--conv-primario-2);
+  box-shadow: 0 0 0 3px #1167a826;
+}
+
+#app-06 .conv-caja input,
+#app-06 .conv-caja output {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--conv-texto);
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+#app-06 .conv-caja--salida {
+  background: var(--conv-primario-suave);
+  border-color: #c7dced;
+}
+
+#app-06 .conv-caja--salida output {
+  color: var(--conv-primario);
+}
+
+#app-06 .conv-simbolo {
+  padding: 0 16px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--conv-texto-suave);
+}
+
+#app-06 .conv-ayuda {
+  display: block;
+  margin-top: 6px;
+  min-height: 1.2em;
+  color: var(--conv-texto-suave);
+  font-size: .8rem;
+}
+
+#app-06 .conv-invertir {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-top: 4px;
+  border: 1px solid #c7dced;
+  border-radius: 50%;
+  background: var(--conv-primario-suave);
+  color: var(--conv-primario);
+  font-size: 1.4rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform .25s, background .2s;
+}
+
+#app-06 .conv-invertir:hover {
+  background: #d6e8f7;
+  transform: rotate(180deg);
+}
+
+/* Estado de invalidación (lo activará la lógica en una etapa posterior). */
+#app-06 .conv-caja[data-invalido="true"] {
+  border-color: var(--conv-error);
+  box-shadow: 0 0 0 3px #c0392b1f;
+}
+
+#app-06 .conv-error {
+  margin: 16px 0 0;
+  padding: 10px 14px;
+  border-left: 4px solid var(--conv-error);
+  border-radius: 8px;
+  background: var(--conv-error-fondo);
+  color: var(--conv-error);
+  font-weight: 600;
+}
+
+#app-06 .conv-error[hidden] {
+  display: none;
+}
+
+#app-06 .conv-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#app-06 .conv-btn {
+  padding: 11px 22px;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .2s, box-shadow .2s;
+}
+
+#app-06 .conv-btn--primario {
+  border: 0;
+  background: var(--conv-primario);
+  color: white;
+}
+
+#app-06 .conv-btn--primario:hover {
+  background: var(--conv-primario-2);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px #0b5d9a33;
+}
+
+#app-06 .conv-btn--secundario {
+  border: 1px solid var(--conv-borde-fuerte);
+  background: white;
+  color: #183b63;
+}
+
+#app-06 .conv-btn--secundario:hover {
+  background: #f4f7fb;
+}
+
+/* ---------- Bloques complementarios ---------- */
+
+#app-06 .conv-extras {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 18px;
+  margin-top: 18px;
+}
+
+#app-06 .conv-columna {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+#app-06 .conv-bloque {
+  background: white;
+  border: 1px solid var(--conv-borde);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+#app-06 .conv-bloque-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#app-06 .conv-subtitulo {
+  margin: 0 0 12px;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--conv-texto-suave);
+}
+
+#app-06 .conv-bloque-cabecera .conv-subtitulo {
+  margin-bottom: 0;
+}
+
+/* Conversiones rápidas */
+#app-06 .conv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#app-06 .conv-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 12px;
+  border: 1px solid #c7dced;
+  border-radius: 10px;
+  background: #edf5fc;
+  color: var(--conv-texto);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color .2s, transform .2s;
+}
+
+#app-06 .conv-chip:hover {
+  border-color: #6ba8d8;
+  transform: translateY(-2px);
+}
+
+#app-06 .conv-chip strong {
+  font-size: .95rem;
+}
+
+#app-06 .conv-chip span {
+  font-size: .75rem;
+  color: var(--conv-texto-suave);
+}
+
+/* Indicador de temperatura: escala de −40 °C a 120 °C.
+   --nivel (0%–100%) posiciona el marcador sobre la barra. */
+#app-06 .conv-termometro-barra {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1e4fd8 0%, var(--conv-frio) 25%, #2fb37a 40%, #f2c230 60%, #f08c1a 75%, var(--conv-caliente) 100%);
+}
+
+#app-06 .conv-termometro-marcador {
+  position: absolute;
+  top: 50%;
+  left: var(--nivel, 0%);
+  width: 22px;
+  height: 22px;
+  border: 4px solid white;
+  border-radius: 50%;
+  background: var(--conv-texto);
+  box-shadow: 0 2px 8px #17203340;
+  transform: translate(-50%, -50%);
+  transition: left .35s ease;
+}
+
+#app-06 .conv-termometro[data-estado="sin-datos"] .conv-termometro-marcador {
+  display: none;
+}
+
+#app-06 .conv-termometro-marcas {
+  position: relative;
+  height: 20px;
+  margin-top: 6px;
+  font-size: .75rem;
+  color: var(--conv-texto-suave);
+}
+
+#app-06 .conv-termometro-marcas span {
+  position: absolute;
+  left: var(--pos);
+  transform: translateX(-50%);
+}
+
+#app-06 .conv-termometro-marcas span:first-child {
+  transform: none;
+}
+
+#app-06 .conv-termometro-estado {
+  margin: 10px 0 0;
+  font-size: .9rem;
+}
+
+/* Historial */
+#app-06 .conv-enlace {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--conv-primario);
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#app-06 .conv-enlace:hover:not(:disabled) {
+  background: var(--conv-primario-suave);
+}
+
+#app-06 .conv-enlace:disabled {
+  color: #9aa9b8;
+  cursor: not-allowed;
+}
+
+#app-06 .conv-historial {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#app-06 .conv-historial li {
+  padding: 8px 10px;
+  border-bottom: 1px solid #edf1f6;
+  font-variant-numeric: tabular-nums;
+}
+
+#app-06 .conv-historial li:last-child {
+  border-bottom: 0;
+}
+
+#app-06 .conv-historial:empty {
+  display: none;
+}
+
+#app-06 .conv-vacio {
+  margin: 12px 0 0;
+  color: #718096;
+  font-size: .9rem;
+}
+
+/* ---------- Accesibilidad ---------- */
+
+#app-06 button:focus-visible {
+  outline: 3px solid #1167a880;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app-06 *,
+  #app-06 *::before,
+  #app-06 *::after {
+    transition: none !important;
+  }
+}
+
+/* ---------- Responsive (mismo punto de corte que el proyecto) ---------- */
+
+@media (max-width: 700px) {
+  #app-06.student-area {
+    padding: 14px;
+  }
+
+  #app-06 .conv-card {
+    padding: 16px;
+  }
+
+  #app-06 .conv-panel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  #app-06 .conv-invertir {
+    justify-self: center;
+    margin: 0;
+    transform: rotate(90deg);
+  }
+
+  #app-06 .conv-invertir:hover {
+    transform: rotate(270deg);
+  }
+
+  #app-06 .conv-extras {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #app-06 .conv-btn {
+    flex: 1;
+  }
+}
