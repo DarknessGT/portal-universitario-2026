@@ -6,350 +6,699 @@
   <title>Módulo 17 - FAQ</title>
   <link rel="stylesheet" href="../../css/estilos.css">
   <style>
-    /* Estilos específicos del Módulo 17 - FAQ */
-    .student-area {
-      display: block;
-      background: #fdfdfd;
-      border: 1px solid #dce4ee;
-      border-radius: 14px;
-      padding: 24px;
-      margin-top: 15px;
+    /* ============================================================
+       ESTILOS DEL MÓDULO 17 - FAQ (Diseño Moderno & Landing Hero)
+       ============================================================ */
+
+    /* Animaciones Generales */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .faq-toolbar {
+
+    @keyframes slideDownFade {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(11, 93, 154, 0.25);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(11, 93, 154, 0);
+      }
+    }
+
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .module-page {
+      max-width: 960px;
+      margin: auto;
+      padding: 24px 18px 80px;
+      animation: fadeInUp 0.45s ease-out;
+    }
+
+    .module-workspace {
+      background: #ffffff;
+      border: 1px solid #e1e7ef;
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 16px 40px rgba(15, 35, 60, 0.07);
+      overflow: hidden;
+    }
+
+    /* ------------------------------------------------------------
+       ENCABEZADO TIPO LANDING PAGE (Compacto, elegante y visual)
+       ------------------------------------------------------------ */
+    .faq-hero-landing {
+      position: relative;
+      background: linear-gradient(135deg, #091e3a 0%, #103766 50%, #1a5695 100%);
+      color: #ffffff;
+      padding: 38px 32px 34px;
+      overflow: hidden;
+      border-bottom: 3px solid #38bdf8;
+    }
+
+    /* Efectos de fondo decorativos tipo aura/glow */
+    .faq-hero-landing::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(56, 189, 248, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .faq-hero-landing::after {
+      content: "";
+      position: absolute;
+      bottom: -30px;
+      left: 30%;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(99, 102, 241, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-top-row {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 22px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid #e2e8f0;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
     }
-    .faq-search-row {
+
+    .hero-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #e0f2fe;
+    }
+
+    .badge-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+      animation: pulseGlow 2.5s infinite;
+    }
+
+    .faq-hero-landing h1 {
+      font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0 0 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .faq-hero-landing h1 .highlight-text {
+      background: linear-gradient(90deg, #7dd3fc, #bae6fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .landing-desc {
+      color: #dbeafe;
+      font-size: 0.96rem;
+      max-width: 660px;
+      margin: 0 0 20px;
+      line-height: 1.55;
+    }
+
+    .hero-feature-pills {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .faq-search-row input[type="search"] {
-      flex: 1;
-      min-width: 240px;
-      padding: 10px 14px;
-      border: 1px solid #b9c8d9;
+
+    .feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 8px;
-      font-size: 0.95rem;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      transition: background 0.2s, transform 0.2s;
     }
+
+    .feature-pill:hover {
+      background: rgba(15, 23, 42, 0.55);
+      transform: translateY(-2px);
+    }
+
+    /* ------------------------------------------------------------
+       ÁREA PRINCIPAL Y CONTENEDORES
+       ------------------------------------------------------------ */
+    .module-body-content {
+      padding: 28px 30px 34px;
+    }
+
+    .student-area {
+      display: block;
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    /* Barra de herramientas */
+    .faq-toolbar {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    .faq-search-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .faq-search-row input[type="search"] {
+      width: 100%;
+      padding: 11px 14px 11px 38px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 0.94rem;
+      background: #ffffff;
+      transition: all 0.25s ease;
+      box-sizing: border-box;
+    }
+
+    .search-icon-decor {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.95rem;
+      color: #64748b;
+      pointer-events: none;
+    }
+
     .faq-search-row input[type="search"]:focus {
       outline: none;
       border-color: #0b5d9a;
-      box-shadow: 0 0 0 3px rgba(11, 93, 154, 0.15);
+      box-shadow: 0 0 0 3px rgba(11, 93, 154, 0.16);
+      background: #ffffff;
     }
+
     .faq-actions {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
+
     .btn-action {
-      background: #0b5d9a;
-      color: #fff;
+      background: linear-gradient(135deg, #0b5d9a 0%, #08497a 100%);
+      color: #ffffff;
       border: none;
-      padding: 9px 15px;
-      border-radius: 8px;
+      padding: 10px 18px;
+      border-radius: 9px;
       font-weight: 600;
       cursor: pointer;
       font-size: 0.88rem;
-      transition: background 0.2s, transform 0.1s;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 6px rgba(11, 93, 154, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
+
     .btn-action:hover {
-      background: #08497a;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 14px rgba(11, 93, 154, 0.3);
+      filter: brightness(1.05);
     }
+
+    .btn-action:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(11, 93, 154, 0.2);
+    }
+
     .btn-secondary {
-      background: #eef4fa;
-      color: #1a4971;
-      border: 1px solid #c8d9ea;
+      background: #ffffff;
+      color: #1e3a5f;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
+
     .btn-secondary:hover {
-      background: #dbeaf7;
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      filter: none;
     }
+
+    /* Chips de categorías */
     .faq-categories {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       align-items: center;
+      padding-top: 2px;
     }
+
     .faq-chip {
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      border-radius: 20px;
-      padding: 6px 14px;
+      background: #ffffff;
+      border: 1px solid #d1d9e2;
+      border-radius: 999px;
+      padding: 7px 15px;
       font-size: 0.82rem;
       font-weight: 600;
       color: #475569;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
     }
+
     .faq-chip:hover {
-      background: #e2e8f0;
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+      transform: translateY(-1px);
     }
+
     .faq-chip.active {
-      background: #0b5d9a;
-      color: #fff;
-      border-color: #0b5d9a;
+      background: linear-gradient(135deg, #0b5d9a 0%, #0369a1 100%);
+      color: #ffffff;
+      border-color: #0369a1;
+      box-shadow: 0 3px 8px rgba(3, 105, 161, 0.28);
+      transform: translateY(-1px);
     }
+
     .faq-stats {
       font-size: 0.88rem;
       color: #64748b;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
+
+    /* ------------------------------------------------------------
+       LISTA DE PREGUNTAS FRECUENTES (Acordeón con animación)
+       ------------------------------------------------------------ */
     .faq-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 30px;
+      margin-bottom: 34px;
     }
+
     .faq-item {
       border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      background: #fff;
+      border-radius: 12px;
+      background: #ffffff;
       overflow: hidden;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      animation: fadeInUp 0.35s ease-out both;
     }
+
     .faq-item:hover {
       border-color: #93c5fd;
-      box-shadow: 0 4px 12px rgba(11, 93, 154, 0.06);
+      box-shadow: 0 6px 18px rgba(11, 93, 154, 0.08);
+      transform: translateY(-1px);
     }
+
     .faq-item.active {
-      border-color: #60a5fa;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.1);
+      border-color: #3b82f6;
+      box-shadow: 0 8px 22px rgba(37, 99, 235, 0.12);
     }
+
     .faq-question {
       width: 100%;
       text-align: left;
       background: transparent;
       border: none;
-      padding: 16px 18px;
-      font-size: 1rem;
+      padding: 16px 20px;
+      font-size: 0.98rem;
       font-weight: 700;
-      color: #1e293b;
+      color: #0f172a;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 14px;
+      transition: background 0.2s;
     }
+
+    .faq-question:hover {
+      background: #f8fafc;
+    }
+
     .faq-question:focus-visible {
       outline: 2px solid #0b5d9a;
       outline-offset: -2px;
     }
+
     .faq-question-text {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .faq-cat-badge {
       font-size: 0.72rem;
-      padding: 3px 8px;
+      padding: 3px 9px;
       border-radius: 6px;
       background: #e0f2fe;
-      color: #0369a1;
+      color: #0284c7;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
+
     .faq-icon {
-      font-size: 1.3rem;
+      font-size: 1.35rem;
+      font-weight: 700;
       color: #64748b;
-      transition: transform 0.25s ease;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
       flex-shrink: 0;
       user-select: none;
+      line-height: 1;
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f1f5f9;
     }
+
     .faq-item.active .faq-icon {
       transform: rotate(45deg);
-      color: #0b5d9a;
+      color: #0369a1;
+      background: #e0f2fe;
     }
+
     .faq-answer {
-      padding: 0 18px 18px 18px;
+      padding: 16px 20px 20px;
       color: #334155;
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 0.94rem;
+      line-height: 1.65;
       border-top: 1px solid #f1f5f9;
       background: #fafcff;
     }
+
+    .faq-answer:not([hidden]) {
+      animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .faq-answer p {
+      margin: 0;
+    }
+
     .faq-empty-state {
-      padding: 35px 20px;
+      padding: 40px 24px;
       text-align: center;
       background: #f8fafc;
-      border: 1px dashed #cbd5e1;
-      border-radius: 10px;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
       color: #64748b;
+      animation: fadeInUp 0.3s ease-out;
     }
-    /* Sección formulario de consultas */
+
+    /* ------------------------------------------------------------
+       FORMULARIO DE REGISTRO DE DUDAS (Moderno con micro-interacciones)
+       ------------------------------------------------------------ */
     .faq-form-section {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 22px;
-      margin-top: 25px;
+      border-radius: 16px;
+      padding: 26px 28px;
+      margin-top: 30px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
     }
+
+    .faq-form-header {
+      margin-bottom: 18px;
+    }
+
     .faq-form-section h2 {
-      margin-top: 0;
-      font-size: 1.25rem;
+      margin: 0 0 6px;
+      font-size: 1.28rem;
       color: #0f172a;
+      font-weight: 800;
     }
+
     .faq-form-section p {
       color: #64748b;
       font-size: 0.9rem;
-      margin-bottom: 16px;
+      margin: 0;
     }
+
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 16px;
       margin-bottom: 14px;
     }
-    @media (max-width: 650px) {
+
+    @media (max-width: 680px) {
       .form-grid { grid-template-columns: 1fr; }
+      .faq-hero-landing { padding: 26px 20px; }
+      .module-body-content { padding: 20px 16px; }
     }
+
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
+
     .form-group.full-width {
       grid-column: 1 / -1;
     }
+
     .form-group label {
       font-size: 0.85rem;
       font-weight: 700;
       color: #334155;
     }
-    .form-group input, .form-group select, .form-group textarea {
-      padding: 10px 12px;
+
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+      padding: 11px 13px;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 9px;
       font-size: 0.92rem;
       font-family: inherit;
+      background: #ffffff;
+      transition: all 0.2s ease;
     }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+
+    .form-group input:focus, 
+    .form-group select:focus, 
+    .form-group textarea:focus {
       outline: none;
       border-color: #0b5d9a;
-      box-shadow: 0 0 0 3px rgba(11, 93, 154, 0.15);
+      box-shadow: 0 0 0 3px rgba(11, 93, 154, 0.16);
     }
+
     .form-group .field-error {
       color: #dc2626;
       font-size: 0.8rem;
       min-height: 1.1rem;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
+
     .feedback-box {
-      padding: 12px 16px;
-      border-radius: 8px;
+      padding: 13px 18px;
+      border-radius: 10px;
       font-size: 0.92rem;
-      margin-top: 14px;
+      margin-top: 16px;
       display: none;
+      animation: slideDownFade 0.3s ease-out;
     }
+
     .feedback-box.success {
       display: block;
       background: #ecfdf5;
       color: #065f46;
       border: 1px solid #a7f3d0;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
     }
+
     .feedback-box.error {
       display: block;
       background: #fef2f2;
       color: #991b1b;
       border: 1px solid #fecaca;
+      animation: shakeError 0.4s ease-in-out;
     }
   </style>
 </head>
 <body>
   <main class="module-page">
-    <a class="back-link" href="../../index.html">← Volver al portal</a>
+    <a class="back-link" href="../../index.html">← Volver al portal universitario</a>
+
     <section class="module-workspace">
-      <span class="student-badge">Estudiante 17</span>
-      <h1>FAQ — Preguntas Frecuentes</h1>
-      <p><strong>Actividad:</strong> Preguntas frecuentes desplegables con filtro por categoría, búsqueda dinámica y registro de dudas con validación estricta.</p>
-
-      <div class="notice">
-        <strong>Módulo 17 — Centro de Respuestas Estudiantiles</strong>
-        <p>Haga clic en cualquier pregunta para expandir su respuesta. Puede buscar por palabra clave, filtrar por categoría o registrar una consulta nueva mediante el formulario validado.</p>
-      </div>
-
-      <div id="app-17" class="student-area">
-        <!-- Barra de herramientas y filtros -->
-        <div class="faq-toolbar">
-          <div class="faq-search-row">
-            <input type="search" id="faqSearchInput" placeholder="Buscar en preguntas frecuentes..." aria-label="Buscar en preguntas frecuentes">
-            <button type="button" id="btnClearSearch" class="btn-action btn-secondary">Limpiar</button>
-          </div>
-          
-          <div class="faq-categories" role="group" aria-label="Filtro por categorías">
-            <button type="button" class="faq-chip active" data-category="todos">Todas</button>
-            <button type="button" class="faq-chip" data-category="academico">Académico</button>
-            <button type="button" class="faq-chip" data-category="financiero">Inscripciones y Pagos</button>
-            <button type="button" class="faq-chip" data-category="tecnico">Campus Virtual</button>
-            <button type="button" class="faq-chip" data-category="servicios">Servicios Estudiantiles</button>
-          </div>
-
-          <div class="faq-actions">
-            <button type="button" id="btnExpandAll" class="btn-action btn-secondary">Expandir todas</button>
-            <button type="button" id="btnCollapseAll" class="btn-action btn-secondary">Colapsar todas</button>
-          </div>
+      <!-- Encabezado estilo Landing Page (Compacto, elegante y visual) -->
+      <header class="faq-hero-landing">
+        <div class="hero-top-row">
+          <span class="hero-badge-tag">
+            <span class="badge-indicator"></span>
+            Módulo 17 · Aseguramiento de Calidad
+          </span>
+          <span class="student-badge">Estudiante 17</span>
         </div>
 
-        <div id="faqStats" class="faq-stats">Mostrando preguntas frecuentes...</div>
+        <h1>¿En qué podemos <span class="highlight-text">ayudarte hoy?</span></h1>
+        <p class="landing-desc">
+          Centro de respuestas oficiales y preguntas frecuentes sobre asignación de cursos, pagos, campus virtual y gestiones universitarias.
+        </p>
 
-        <!-- Lista interactiva de preguntas frecuentes desplegables (Acordeón) -->
-        <div id="faqList" class="faq-list" role="region" aria-label="Lista de preguntas frecuentes">
-          <!-- Las preguntas se renderizan dinámicamente o se inicializan desde JavaScript con accesibilidad -->
+        <div class="hero-feature-pills">
+          <span class="feature-pill">⚡ Respuestas Inmediatas</span>
+          <span class="feature-pill">🔍 Búsqueda Dinámica</span>
+          <span class="feature-pill">🛡️ Validación Segura</span>
+          <span class="feature-pill">🎓 Portal UMG 2026</span>
         </div>
+      </header>
 
-        <!-- Formulario para agregar una consulta con validaciones -->
-        <section class="faq-form-section" aria-labelledby="formTitle">
-          <h2 id="formTitle">¿Tienes una pregunta nueva?</h2>
-          <p>Registra tu consulta o duda académica. Validaremos la información antes de integrarla al sistema de ayuda.</p>
-          
-          <form id="faqForm" novalidate>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="faqCategorySelect">Categoría *</label>
-                <select id="faqCategorySelect" required>
-                  <option value="">-- Selecciona una categoría --</option>
-                  <option value="academico">Académico</option>
-                  <option value="financiero">Inscripciones y Pagos</option>
-                  <option value="tecnico">Campus Virtual</option>
-                  <option value="servicios">Servicios Estudiantiles</option>
-                </select>
-                <span id="err-category" class="field-error" aria-live="polite"></span>
+      <!-- Cuerpo interactivo del módulo -->
+      <div class="module-body-content">
+        <div id="app-17" class="student-area">
+          <!-- Barra de herramientas con buscador y filtros -->
+          <div class="faq-toolbar">
+            <div class="faq-search-row">
+              <div class="search-input-wrapper">
+                <span class="search-icon-decor" aria-hidden="true">🔍</span>
+                <input type="search" id="faqSearchInput" placeholder="Buscar preguntas frecuentes por palabra clave..." aria-label="Buscar en preguntas frecuentes">
               </div>
-
-              <div class="form-group">
-                <label for="faqUserEmail">Correo Electrónico Institucional *</label>
-                <input type="email" id="faqUserEmail" placeholder="usuario@miumg.edu.gt" required maxlength="80">
-                <span id="err-email" class="field-error" aria-live="polite"></span>
-              </div>
-
-              <div class="form-group full-width">
-                <label for="faqUserQuestion">Pregunta / Asunto * (10 - 120 caracteres)</label>
-                <input type="text" id="faqUserQuestion" placeholder="Ej: ¿Cuáles son las fechas de exámenes extraordinarios?" required minlength="10" maxlength="120">
-                <span id="err-question" class="field-error" aria-live="polite"></span>
-              </div>
-
-              <div class="form-group full-width">
-                <label for="faqUserAnswer">Detalle o Contexto * (15 - 300 caracteres)</label>
-                <textarea id="faqUserAnswer" rows="3" placeholder="Explique brevemente su consulta o la respuesta que espera aclarar..." required minlength="15" maxlength="300"></textarea>
-                <span id="err-answer" class="field-error" aria-live="polite"></span>
-              </div>
+              <button type="button" id="btnClearSearch" class="btn-action btn-secondary">Limpiar</button>
+            </div>
+            
+            <div class="faq-categories" role="group" aria-label="Filtro por categorías">
+              <button type="button" class="faq-chip active" data-category="todos">Todas</button>
+              <button type="button" class="faq-chip" data-category="academico">Académico</button>
+              <button type="button" class="faq-chip" data-category="financiero">Inscripciones y Pagos</button>
+              <button type="button" class="faq-chip" data-category="tecnico">Campus Virtual</button>
+              <button type="button" class="faq-chip" data-category="servicios">Servicios Estudiantiles</button>
             </div>
 
-            <button type="submit" id="btnSubmitQuestion" class="btn-action">Registrar Pregunta Frecuente</button>
-            <div id="faqFormFeedback" class="feedback-box" role="alert"></div>
-          </form>
-        </section>
-      </div>
+            <div class="faq-actions">
+              <button type="button" id="btnExpandAll" class="btn-action btn-secondary">Expandir todas</button>
+              <button type="button" id="btnCollapseAll" class="btn-action btn-secondary">Colapsar todas</button>
+            </div>
+          </div>
 
-      <p id="resultado-17" class="result" aria-live="polite"></p>
+          <div id="faqStats" class="faq-stats">Mostrando preguntas frecuentes...</div>
+
+          <!-- Lista interactiva de preguntas frecuentes desplegables (Acordeón) -->
+          <div id="faqList" class="faq-list" role="region" aria-label="Lista de preguntas frecuentes">
+            <!-- Las preguntas se renderizan dinámicamente con soporte completo de accesibilidad -->
+          </div>
+
+          <!-- Formulario de consultas con validaciones estrictas -->
+          <section class="faq-form-section" aria-labelledby="formTitle">
+            <div class="faq-form-header">
+              <h2 id="formTitle">¿Tienes una consulta o duda adicional?</h2>
+              <p>Envía tu pregunta para integrarla a la base de conocimiento estudiantil. Todos los campos son validados conforme a los estándares de calidad.</p>
+            </div>
+            
+            <form id="faqForm" novalidate>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="faqCategorySelect">Categoría *</label>
+                  <select id="faqCategorySelect" required>
+                    <option value="">-- Selecciona una categoría --</option>
+                    <option value="academico">Académico</option>
+                    <option value="financiero">Inscripciones y Pagos</option>
+                    <option value="tecnico">Campus Virtual</option>
+                    <option value="servicios">Servicios Estudiantiles</option>
+                  </select>
+                  <span id="err-category" class="field-error" aria-live="polite"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="faqUserEmail">Correo Electrónico Institucional *</label>
+                  <input type="email" id="faqUserEmail" placeholder="usuario@miumg.edu.gt" required maxlength="80">
+                  <span id="err-email" class="field-error" aria-live="polite"></span>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="faqUserQuestion">Pregunta o Asunto * (10 - 120 caracteres)</label>
+                  <input type="text" id="faqUserQuestion" placeholder="Ej: ¿Cuáles son las fechas de exámenes extraordinarios?" required minlength="10" maxlength="120">
+                  <span id="err-question" class="field-error" aria-live="polite"></span>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="faqUserAnswer">Detalle o Contexto * (15 - 300 caracteres)</label>
+                  <textarea id="faqUserAnswer" rows="3" placeholder="Explique brevemente su consulta o el contexto de la respuesta..." required minlength="15" maxlength="300"></textarea>
+                  <span id="err-answer" class="field-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <button type="submit" id="btnSubmitQuestion" class="btn-action">Registrar Pregunta Frecuente</button>
+              <div id="faqFormFeedback" class="feedback-box" role="alert"></div>
+            </form>
+          </section>
+        </div>
+
+        <p id="resultado-17" class="result" aria-live="polite"></p>
+      </div>
     </section>
   </main>
+
   <script src="../../js/app.js"></script>
   <script src="modulo.js"></script>
 </body>
