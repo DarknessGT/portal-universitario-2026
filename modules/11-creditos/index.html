@@ -5,6 +5,195 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 11 - Créditos</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    /* Los estilos se limitan al módulo 11 para no afectar el trabajo del resto del equipo. */
+    #app-11 {
+      display: block;
+      min-height: auto;
+      border-style: solid;
+    }
+
+    .credits-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, .7fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .credits-form,
+    .credits-summary {
+      background: #fff;
+      border: 1px solid #dfe7f0;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .credits-form h2,
+    .credits-summary h2 {
+      margin: 0 0 16px;
+      font-size: 1.15rem;
+      color: #183b63;
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+
+    .form-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .form-field input {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid #b9c8d9;
+      border-radius: 9px;
+      color: #172033;
+      font: inherit;
+    }
+
+    .form-field input:focus {
+      border-color: #1167a8;
+      outline: 3px solid #1167a826;
+    }
+
+    .field-help {
+      display: block;
+      margin-top: 5px;
+      color: #56677b;
+      font-size: .84rem;
+    }
+
+    .credits-button {
+      min-height: 44px;
+      border: 0;
+      border-radius: 9px;
+      padding: 10px 16px;
+      background: #1167a8;
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .credits-button:hover {
+      background: #0b527f;
+    }
+
+    .credits-button:focus-visible,
+    .remove-course:focus-visible {
+      outline: 3px solid #1167a84a;
+      outline-offset: 2px;
+    }
+
+    .credits-button.secondary {
+      width: 100%;
+      margin-top: 16px;
+      background: #e8f2fb;
+      color: #0b5d9a;
+    }
+
+    .credits-button:disabled {
+      cursor: not-allowed;
+      opacity: .55;
+    }
+
+    .credits-total {
+      margin: 0;
+      color: #0b5d9a;
+      font-size: clamp(2.4rem, 8vw, 4rem);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .credits-total-label {
+      margin: 8px 0 0;
+      color: #56677b;
+    }
+
+    .course-list-heading {
+      margin: 26px 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .course-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .course-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid #dfe7f0;
+    }
+
+    .course-item:first-child {
+      border-top: 1px solid #dfe7f0;
+    }
+
+    .course-data {
+      min-width: 0;
+    }
+
+    .course-name {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    .course-credits {
+      color: #56677b;
+      font-size: .9rem;
+    }
+
+    .remove-course {
+      flex: 0 0 auto;
+      border: 1px solid #c9d6e4;
+      border-radius: 8px;
+      padding: 7px 10px;
+      background: #fff;
+      color: #8b2635;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .empty-list {
+      margin: 0;
+      padding: 14px;
+      border-radius: 9px;
+      background: #edf5fc;
+      color: #56677b;
+    }
+
+    #resultado-11[data-type="error"] {
+      color: #9c2536;
+    }
+
+    #resultado-11[data-type="success"] {
+      color: #166534;
+    }
+
+    @media (max-width: 700px) {
+      .credits-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .module-workspace {
+        padding: 22px 18px;
+      }
+
+      #app-11 {
+        padding: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="module-page">
@@ -15,16 +204,70 @@
       <p><strong>Actividad:</strong> Calcular total de créditos académicos.</p>
 
       <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
+        <strong>¿Cómo funciona?</strong>
+        <p>Registre únicamente cursos aprobados. El módulo sumará sus créditos académicos y mostrará el total acumulado.</p>
       </div>
 
       <div id="app-11" class="student-area">
-        <!-- TODO ESTUDIANTE 11: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <div class="credits-layout">
+          <!-- Formulario independiente: no requiere datos de otros módulos. -->
+          <form id="form-creditos-11" class="credits-form" novalidate>
+            <h2>Agregar curso aprobado</h2>
+
+            <div class="form-field">
+              <label for="curso-11">Nombre del curso</label>
+              <input
+                id="curso-11"
+                name="curso"
+                type="text"
+                maxlength="80"
+                autocomplete="off"
+                placeholder="Ej. Programación I"
+                required
+              >
+              <small class="field-help">Máximo 80 caracteres.</small>
+            </div>
+
+            <div class="form-field">
+              <label for="creditos-11">Créditos obtenidos</label>
+              <input
+                id="creditos-11"
+                name="creditos"
+                type="number"
+                min="1"
+                max="20"
+                step="1"
+                inputmode="numeric"
+                placeholder="Ej. 4"
+                required
+              >
+              <small class="field-help">Ingrese un número entero entre 1 y 20.</small>
+            </div>
+
+            <button id="agregar-curso-11" class="credits-button" type="submit">
+              Agregar al total
+            </button>
+          </form>
+
+          <!-- Resumen del cálculo, actualizado por modulo.js. -->
+          <aside class="credits-summary" aria-labelledby="resumen-creditos-11">
+            <h2 id="resumen-creditos-11">Resumen académico</h2>
+            <p id="total-creditos-11" class="credits-total">0</p>
+            <p class="credits-total-label">créditos acumulados</p>
+            <button id="reiniciar-creditos-11" class="credits-button secondary" type="button" disabled>
+              Reiniciar registro
+            </button>
+          </aside>
+        </div>
+
+        <section aria-labelledby="cursos-aprobados-11">
+          <h2 id="cursos-aprobados-11" class="course-list-heading">Cursos aprobados</h2>
+          <p id="lista-vacia-11" class="empty-list">Todavía no hay cursos registrados.</p>
+          <ul id="lista-creditos-11" class="course-list"></ul>
+        </section>
       </div>
 
-      <p id="resultado-11" class="result" aria-live="polite"></p>
+      <p id="resultado-11" class="result" role="status" aria-live="polite"></p>
     </section>
   </main>
   <script src="../../js/app.js"></script>
