@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 03 - Estado académico</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    /* Estilos exclusivos del módulo 03 (no se modifica estilos.css compartido) */
+    #app-03 { place-items: stretch; }
+    #form-03 { display: flex; flex-direction: column; gap: 10px; max-width: 360px; }
+    #form-03 label { font-weight: 700; color: #183b63; }
+    #promedio-03 { padding: 12px 14px; border: 1px solid #b9c8d9; border-radius: 10px; font: inherit; }
+    #promedio-03:focus { outline: 3px solid #6ba8d8; outline-offset: 1px; }
+    #promedio-03[aria-invalid="true"] { border-color: #c53030; }
+    #form-03 .ayuda { margin: 0; color: #56677b; font-size: .9rem; }
+    #btn-evaluar-03 { align-self: flex-start; padding: 11px 18px; border: 0; border-radius: 10px;
+      background: #0b5d9a; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    #btn-evaluar-03:hover { background: #0b315c; }
+    #btn-evaluar-03:focus-visible { outline: 3px solid #6ba8d8; outline-offset: 2px; }
+    #resultado-03.aprobado { color: #1f7a3a; }
+    #resultado-03.reprobado { color: #b7791f; }
+    #resultado-03.error { color: #c53030; }
+  </style>
 </head>
 <body>
   <main class="module-page">
@@ -20,8 +37,13 @@
       </div>
 
       <div id="app-03" class="student-area">
-        <!-- TODO ESTUDIANTE 03: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <form id="form-03" novalidate>
+          <label for="promedio-03">Promedio del estudiante</label>
+          <input id="promedio-03" name="promedio" type="text" inputmode="decimal"
+                 placeholder="Ejemplo: 75.5" autocomplete="off" aria-describedby="ayuda-03">
+          <p id="ayuda-03" class="ayuda">Ingrese un valor entre 0 y 100. Nota mínima para aprobar: 61.</p>
+          <button id="btn-evaluar-03" type="submit">Evaluar estado</button>
+        </form>
       </div>
 
       <p id="resultado-03" class="result" aria-live="polite"></p>
