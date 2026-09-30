@@ -10,8 +10,6 @@
   --conv-texto-suave: #56677b;
   --conv-borde: #dfe7f0;
   --conv-borde-fuerte: #b9c8d9;
-  --conv-frio: #2b7de9;
-  --conv-caliente: #d9480f;
   --conv-error: #c0392b;
   --conv-error-fondo: #fdecea;
 }
@@ -20,12 +18,15 @@
    pero se reemplaza el centrado en grid y el borde punteado del placeholder. */
 #app-06.student-area {
   display: block;
+  /* #app-06 reemplaza el placeholder global .student-area: esta propiedad anula a
+     propósito su place-items: center. Evita que un hijo más estrecho que el
+     contenedor se encoja y quede centrado. Con el contenido actual no produce
+     cambio visual; se mantiene para no depender del placeholder global. */
   place-items: normal;
   min-height: 0;
   border-style: solid;
   border-width: 1px;
   border-color: var(--conv-borde);
-  text-align: left;
 }
 
 /* ---------- Tarjeta principal ---------- */
@@ -151,7 +152,7 @@
   transform: rotate(180deg);
 }
 
-/* Estado de invalidación (lo activará la lógica en una etapa posterior). */
+/* Estado de invalidación: modulo.js marca la caja con data-invalido="true" al mostrar un error. */
 #app-06 .conv-caja[data-invalido="true"] {
   border-color: var(--conv-error);
   box-shadow: 0 0 0 3px #c0392b1f;
@@ -286,54 +287,106 @@
   color: var(--conv-texto-suave);
 }
 
-/* Indicador de temperatura: escala de −40 °C a 120 °C.
-   --nivel (0%–100%) posiciona el marcador sobre la barra. */
-#app-06 .conv-termometro-barra {
+/* Indicador de temperatura: un solo termómetro vertical (tubo + bulbo) con escala dual.
+   modulo.js solo fija data-nivel (0 a 6); aquí se decide hasta dónde sube el líquido y con qué
+   colores. Paleta única: helado #177CC0, frío #90D7EB, fresco #E9F6FD, ambiente #F3D98B,
+   templado #FFCB38 y cálido #F24A45. Los niveles fríos solo usan azules/celestes y los cálidos
+   solo amarillos/rojo, así que el relleno de un nivel nunca mezcla frío y calor. Sin marcador,
+   sin escala numérica y con tamaño fijo: ningún valor lo desborda (los extremos solo llegan
+   al nivel 1 o al 6). */
+#app-06 .conv-termometro {
+  --termometro-alto: 200px;
+  --termometro-grosor: 5px; /* grosor del vidrio */
+  --termometro-relleno: 0%;
+  --termometro-liquido: transparent;
+  --termometro-superficie: none;
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+/* Altura (% del interior; el bulbo ocupa ~26 %, así que el nivel 1 ya lo llena) y colores del
+   líquido en cada nivel, de abajo hacia arriba. */
+#app-06 .conv-termometro[data-nivel="1"] { /* helado: azul oscuro */
+  --termometro-relleno: 30%;
+  --termometro-liquido: #177cc0;
+}
+#app-06 .conv-termometro[data-nivel="2"] { /* frío: azul → celeste */
+  --termometro-relleno: 42%;
+  --termometro-liquido: linear-gradient(to top, #177cc0 15%, #90d7eb);
+}
+#app-06 .conv-termometro[data-nivel="3"] { /* fresco: celeste → celeste muy claro */
+  --termometro-relleno: 54%;
+  --termometro-liquido: linear-gradient(to top, #90d7eb 30%, #e9f6fd);
+  /* Superficie del líquido marcada: el tono fresco es casi igual al interior vacío. */
+  --termometro-superficie: inset 0 2px 0 #90d7eb;
+}
+#app-06 .conv-termometro[data-nivel="4"] { /* ambiente: amarillo crema */
+  --termometro-relleno: 66%;
+  --termometro-liquido: #f3d98b;
+}
+#app-06 .conv-termometro[data-nivel="5"] { /* templado: crema → amarillo, acercándose al cálido */
+  --termometro-relleno: 82%;
+  --termometro-liquido: linear-gradient(to top, #f3d98b, #ffcb38 55%, #f24a45 140%);
+}
+#app-06 .conv-termometro[data-nivel="6"] { /* cálido: amarillo → rojo */
+  --termometro-relleno: 100%;
+  --termometro-liquido: linear-gradient(to top, #ffcb38, #f24a45 40%);
+}
+
+/* Silueta: un bulbo circular abajo y un tubo con la punta redondeada arriba, recortados con
+   máscaras. --tubo y --bulbo son los diámetros de cada pieza del elemento que la usa. */
+#app-06 .conv-termometro-cuerpo,
+#app-06 .conv-termometro-interior {
+  --forma:
+    radial-gradient(circle at 50% calc(100% - var(--bulbo) / 2), #000 calc(var(--bulbo) / 2 - .5px), transparent calc(var(--bulbo) / 2)) 0 0 / 100% 100% no-repeat,
+    radial-gradient(circle at 50% calc(var(--tubo) / 2), #000 calc(var(--tubo) / 2 - .5px), transparent calc(var(--tubo) / 2)) 0 0 / 100% 100% no-repeat,
+    linear-gradient(#000, #000) 50% calc(var(--tubo) / 2) / var(--tubo) calc(100% - var(--tubo) / 2 - var(--bulbo) / 2) no-repeat;
+  -webkit-mask: var(--forma);
+  mask: var(--forma);
+}
+
+/* Vidrio exterior. */
+#app-06 .conv-termometro-cuerpo {
+  --tubo: 30px;
+  --bulbo: 60px;
   position: relative;
-  height: 14px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #1e4fd8 0%, var(--conv-frio) 25%, #2fb37a 40%, #f2c230 60%, #f08c1a 75%, var(--conv-caliente) 100%);
+  flex: none;
+  width: var(--bulbo);
+  height: var(--termometro-alto);
+  background: #cfd8e3;
 }
 
-#app-06 .conv-termometro-marcador {
+/* Interior (neutro mientras está vacío), concéntrico con el vidrio. */
+#app-06 .conv-termometro-interior {
+  --tubo: calc(30px - 2 * var(--termometro-grosor));
+  --bulbo: calc(60px - 2 * var(--termometro-grosor));
   position: absolute;
-  top: 50%;
-  left: var(--nivel, 0%);
-  width: 22px;
-  height: 22px;
-  border: 4px solid white;
-  border-radius: 50%;
-  background: var(--conv-texto);
-  box-shadow: 0 2px 8px #17203340;
-  transform: translate(-50%, -50%);
-  transition: left .35s ease;
+  inset: var(--termometro-grosor);
+  background: #eef2f7;
 }
 
-#app-06 .conv-termometro[data-estado="sin-datos"] .conv-termometro-marcador {
-  display: none;
-}
-
-#app-06 .conv-termometro-marcas {
-  position: relative;
-  height: 20px;
-  margin-top: 6px;
-  font-size: .75rem;
-  color: var(--conv-texto-suave);
-}
-
-#app-06 .conv-termometro-marcas span {
+/* Reflejo del vidrio sobre el tubo. */
+#app-06 .conv-termometro-interior::after {
+  content: "";
   position: absolute;
-  left: var(--pos);
-  transform: translateX(-50%);
+  top: 8px;
+  bottom: 40px;
+  left: calc(50% - 6px);
+  width: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .55);
 }
 
-#app-06 .conv-termometro-marcas span:first-child {
-  transform: none;
-}
-
-#app-06 .conv-termometro-estado {
-  margin: 10px 0 0;
-  font-size: .9rem;
+#app-06 .conv-termometro-liquido {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--termometro-relleno);
+  background: var(--termometro-liquido);
+  box-shadow: var(--termometro-superficie);
+  transition: height .45s ease;
 }
 
 /* Historial */
@@ -376,6 +429,35 @@
 
 #app-06 .conv-historial:empty {
   display: none;
+}
+
+#app-06 .conv-historial-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 10px;
+}
+
+#app-06 .conv-historial-item:first-child {
+  background: var(--conv-primario-suave);
+  border-radius: 8px;
+}
+
+#app-06 .conv-historial-valores {
+  min-width: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+#app-06 .conv-historial-temperatura {
+  white-space: nowrap;
+}
+
+#app-06 .conv-historial-sentido {
+  color: var(--conv-texto-suave);
+  font-size: .75rem;
+  white-space: nowrap;
 }
 
 #app-06 .conv-vacio {
