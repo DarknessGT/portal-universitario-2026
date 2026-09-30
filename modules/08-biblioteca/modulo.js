@@ -5,12 +5,13 @@
 
 const librosDemostracion = Object.freeze([
   "Introducción a la programación",
-  "Matemática para principiantes",
-  "Comunicación escrita",
+  "Matemática Discreta",
+  "Cálculo diferencial e integral",
   "Fundamentos de biología",
   "Historia universal",
   "Principios de física",
-  "Lectura y análisis literario"
+  "Auditoría y Seguridad De La Información",
+  "Ingeniería de software",
 ]);
 
 function normalizarTexto(valor) {
@@ -57,29 +58,17 @@ if (typeof document !== "undefined") {
     mostrarLibros(librosDemostracion);
     resultado.textContent = "Se muestra el catálogo de demostración.";
 
-    entrada.addEventListener("input", () => {
-      if (entrada.value.trim()) {
-        entrada.removeAttribute("aria-invalid");
-        if (resultado.dataset.estado === "error") {
-          resultado.textContent = "";
-          delete resultado.dataset.estado;
-        }
-      }
-    });
-
-    formulario.addEventListener("submit", evento => {
-      evento.preventDefault();
+    function actualizarResultados() {
       const consulta = entrada.value.trim();
+      entrada.removeAttribute("aria-invalid");
 
       if (!consulta) {
-        entrada.setAttribute("aria-invalid", "true");
-        resultado.dataset.estado = "error";
-        resultado.textContent = "Escribe el título o una palabra para buscar.";
-        entrada.focus();
+        mostrarLibros(librosDemostracion);
+        resultado.dataset.estado = "inicial";
+        resultado.textContent = "Se muestra el catálogo de demostración.";
         return;
       }
 
-      entrada.removeAttribute("aria-invalid");
       const coincidencias = buscarLibros(librosDemostracion, consulta);
       mostrarLibros(coincidencias);
 
@@ -92,14 +81,18 @@ if (typeof document !== "undefined") {
       resultado.dataset.estado = "exito";
       const etiqueta = coincidencias.length === 1 ? "libro" : "libros";
       resultado.textContent = `Se encontraron ${coincidencias.length} ${etiqueta} para “${consulta}”.`;
+    }
+
+    entrada.addEventListener("input", actualizarResultados);
+
+    formulario.addEventListener("submit", evento => {
+      evento.preventDefault();
+      actualizarResultados();
     });
 
     botonLimpiar.addEventListener("click", () => {
       entrada.value = "";
-      entrada.removeAttribute("aria-invalid");
-      mostrarLibros(librosDemostracion);
-      resultado.dataset.estado = "inicial";
-      resultado.textContent = "Se muestra el catálogo de demostración.";
+      actualizarResultados();
       entrada.focus();
     });
   });
