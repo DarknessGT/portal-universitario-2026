@@ -1,0 +1,11 @@
+{
+  "name": "portal-universitario-pruebas-cursos",
+  "private": true,
+  "description": "Dependencia aislada para la prueba Selenium del módulo 10.",
+  "scripts": {
+    "test:cursos": "node test_10_cursos.js"
+  },
+  "devDependencies": {
+    "selenium-webdriver": "^4.35.0"
+  }
+}
