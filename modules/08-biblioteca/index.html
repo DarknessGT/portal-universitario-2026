@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 08 - Biblioteca</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="module-page">
@@ -15,13 +16,36 @@
       <p><strong>Actividad:</strong> Buscar libros dentro de una lista.</p>
 
       <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
+        <strong>Catálogo de demostración.</strong>
+        <p>Los títulos que aparecen son ejemplos y no representan el inventario de una biblioteca universitaria.</p>
       </div>
 
-      <div id="app-08" class="student-area">
-        <!-- TODO ESTUDIANTE 08: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+      <div id="app-08" class="student-area biblioteca-area">
+        <form id="busqueda-libros" class="biblioteca-search" novalidate>
+          <label for="termino-busqueda">Buscar por título</label>
+          <p id="ayuda-busqueda" class="search-help">Escribe el título completo o una palabra y pulsa Buscar.</p>
+          <div class="search-controls">
+            <input
+              id="termino-busqueda"
+              name="termino"
+              type="search"
+              maxlength="80"
+              autocomplete="off"
+              aria-describedby="ayuda-busqueda resultado-08"
+              placeholder="Ejemplo: matemática"
+            >
+            <button type="submit">Buscar</button>
+            <button id="limpiar-busqueda" class="button-secondary" type="button">Limpiar</button>
+          </div>
+        </form>
+
+        <section class="book-results" aria-labelledby="titulo-resultados">
+          <div class="results-heading">
+            <h2 id="titulo-resultados">Libros de demostración</h2>
+            <span id="conteo-libros" class="book-count"></span>
+          </div>
+          <ul id="resultados-libros" class="book-list" aria-label="Resultados de libros"></ul>
+        </section>
       </div>
 
       <p id="resultado-08" class="result" aria-live="polite"></p>

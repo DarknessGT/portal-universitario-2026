@@ -1,0 +1,128 @@
+.biblioteca-area {
+  display: block;
+  min-height: 0;
+  padding: 22px;
+  border-style: solid;
+  background: #fff;
+}
+
+.biblioteca-search {
+  display: grid;
+  gap: 8px;
+}
+
+.biblioteca-search label {
+  color: #183b63;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.search-help {
+  margin: 0;
+  color: #56677b;
+  font-size: .94rem;
+}
+
+.search-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.search-controls input {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 11px 13px;
+  border: 1px solid #b9c8d9;
+  border-radius: 10px;
+  color: #172033;
+  font: inherit;
+}
+
+.search-controls input[aria-invalid="true"] {
+  border-color: #a52b2b;
+}
+
+.search-controls button {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid #0b5d9a;
+  border-radius: 10px;
+  background: #0b5d9a;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.search-controls .button-secondary {
+  border-color: #b9c8d9;
+  background: #fff;
+  color: #183b63;
+}
+
+.search-controls input:focus-visible,
+.search-controls button:focus-visible {
+  outline: 3px solid #f0b429;
+  outline-offset: 2px;
+}
+
+.book-results {
+  margin-top: 26px;
+}
+
+.results-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  border-bottom: 1px solid #dfe7f0;
+  padding-bottom: 10px;
+}
+
+.results-heading h2 {
+  margin: 0;
+  color: #183b63;
+  font-size: 1.15rem;
+}
+
+.book-count {
+  color: #56677b;
+  font-size: .9rem;
+}
+
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 12px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.book-list li {
+  border: 1px solid #dfe7f0;
+  border-left: 4px solid #1167a8;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 14px 16px;
+  color: #172033;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .biblioteca-area {
+    padding: 16px;
+  }
+
+  .search-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-controls input {
+    grid-column: 1 / -1;
+  }
+}
