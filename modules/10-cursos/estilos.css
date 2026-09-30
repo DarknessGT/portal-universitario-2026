@@ -1,10 +1,13 @@
-/* Módulo 10: contenedor y secciones de la aplicación de cursos. */
+/* Módulo 10: vista independiente y secciones de la aplicación de cursos. */
+.cursos-standalone {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  padding: 35px 20px 70px;
+}
+
 .cursos-app {
   display: block;
-  min-height: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
+  width: 100%;
 }
 
 .cursos-section {
