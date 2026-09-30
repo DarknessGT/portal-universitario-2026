@@ -1,15 +1,106 @@
 // MÓDULO 08: Biblioteca
 // Actividad: Buscar libros dentro de una lista.
 // Trabaje solamente en este archivo y en index.html de este módulo cuando sea necesario.
-// Evite modificar módulos asignados a otros compañeros.
+// El catálogo incluido contiene títulos de demostración, no datos institucionales.
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Módulo 08 - Biblioteca: listo para desarrollar.");
+const librosDemostracion = Object.freeze([
+  "Introducción a la programación",
+  "Matemática para principiantes",
+  "Comunicación escrita",
+  "Fundamentos de biología",
+  "Historia universal",
+  "Principios de física",
+  "Lectura y análisis literario"
+]);
 
-  // TODO ESTUDIANTE 08:
-  // 1. Implemente la lógica de la funcionalidad.
-  // 2. Valide entradas.
-  // 3. Muestre resultados claros.
-  // 4. Prepare al menos 5 casos de prueba.
-  // 5. Automatice al menos 1 caso de prueba.
-});
+function normalizarTexto(valor) {
+  return String(valor ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLocaleLowerCase("es");
+}
+
+function buscarLibros(libros, consulta) {
+  const termino = normalizarTexto(consulta);
+  if (!termino) return [];
+
+  return libros.filter(titulo => normalizarTexto(titulo).includes(termino));
+}
+
+// Exportación compatible con node:test; en el navegador se ejecuta como un script normal.
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { buscarLibros, librosDemostracion, normalizarTexto };
+}
+
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", () => {
+    const formulario = document.getElementById("busqueda-libros");
+    const entrada = document.getElementById("termino-busqueda");
+    const botonLimpiar = document.getElementById("limpiar-busqueda");
+    const lista = document.getElementById("resultados-libros");
+    const conteo = document.getElementById("conteo-libros");
+    const resultado = document.getElementById("resultado-08");
+
+    if (!formulario || !entrada || !botonLimpiar || !lista || !conteo || !resultado) return;
+
+    function mostrarLibros(libros) {
+      lista.replaceChildren();
+      libros.forEach(titulo => {
+        const elemento = document.createElement("li");
+        elemento.textContent = titulo;
+        lista.append(elemento);
+      });
+      conteo.textContent = `${libros.length} de ${librosDemostracion.length} títulos`;
+    }
+
+    mostrarLibros(librosDemostracion);
+    resultado.textContent = "Se muestra el catálogo de demostración.";
+
+    entrada.addEventListener("input", () => {
+      if (entrada.value.trim()) {
+        entrada.removeAttribute("aria-invalid");
+        if (resultado.dataset.estado === "error") {
+          resultado.textContent = "";
+          delete resultado.dataset.estado;
+        }
+      }
+    });
+
+    formulario.addEventListener("submit", evento => {
+      evento.preventDefault();
+      const consulta = entrada.value.trim();
+
+      if (!consulta) {
+        entrada.setAttribute("aria-invalid", "true");
+        resultado.dataset.estado = "error";
+        resultado.textContent = "Escribe el título o una palabra para buscar.";
+        entrada.focus();
+        return;
+      }
+
+      entrada.removeAttribute("aria-invalid");
+      const coincidencias = buscarLibros(librosDemostracion, consulta);
+      mostrarLibros(coincidencias);
+
+      if (coincidencias.length === 0) {
+        resultado.dataset.estado = "vacio";
+        resultado.textContent = `No se encontraron libros para “${consulta}”.`;
+        return;
+      }
+
+      resultado.dataset.estado = "exito";
+      const etiqueta = coincidencias.length === 1 ? "libro" : "libros";
+      resultado.textContent = `Se encontraron ${coincidencias.length} ${etiqueta} para “${consulta}”.`;
+    });
+
+    botonLimpiar.addEventListener("click", () => {
+      entrada.value = "";
+      entrada.removeAttribute("aria-invalid");
+      mostrarLibros(librosDemostracion);
+      resultado.dataset.estado = "inicial";
+      resultado.textContent = "Se muestra el catálogo de demostración.";
+      entrada.focus();
+    });
+  });
+}
