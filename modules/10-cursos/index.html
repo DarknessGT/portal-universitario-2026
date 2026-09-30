@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 10 - Cursos</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
   <main class="module-page">
@@ -19,11 +20,72 @@
         <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
       </div>
 
-      <div id="app-10" class="student-area">
-        <!-- TODO ESTUDIANTE 10: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+      <!-- Aplicación autocontenida para registrar cursos asignados -->
+      <div id="app-10" class="student-area cursos-app">
+        <!-- Formulario de registro de cursos -->
+        <section class="cursos-section" aria-labelledby="registro-cursos-titulo">
+          <h2 id="registro-cursos-titulo">Registrar curso</h2>
+          <p class="cursos-help">Los campos marcados con * son obligatorios.</p>
+
+          <form id="curso-form" class="curso-form" novalidate>
+            <div class="curso-field">
+              <label for="curso-codigo">Código del curso <span aria-hidden="true">*</span></label>
+              <input id="curso-codigo" name="codigo" type="text" maxlength="20" autocomplete="off"
+                aria-required="true" aria-describedby="ayuda-codigo" placeholder="Ej. PROG-101">
+              <small id="ayuda-codigo">Máximo 20 caracteres. Se guardará en mayúsculas.</small>
+            </div>
+
+            <div class="curso-field">
+              <label for="curso-nombre">Nombre del curso <span aria-hidden="true">*</span></label>
+              <input id="curso-nombre" name="nombre" type="text" maxlength="100" autocomplete="off"
+                aria-required="true" placeholder="Ej. Programación I">
+            </div>
+
+            <div class="curso-field">
+              <label for="curso-docente">Docente</label>
+              <input id="curso-docente" name="docente" type="text" maxlength="100" autocomplete="off"
+                placeholder="Ej. Juan Pérez">
+            </div>
+
+            <div class="curso-field">
+              <label for="curso-horario">Jornada / horario</label>
+              <input id="curso-horario" name="horario" type="text" maxlength="100" autocomplete="off"
+                placeholder="Ej. Lunes 08:00 - 10:00">
+            </div>
+
+            <button id="btn-registrar-curso" type="submit">Registrar curso</button>
+          </form>
+        </section>
+
+        <!-- Mensajes de validación, éxito y errores de almacenamiento -->
+        <p id="mensaje-cursos" class="mensaje-cursos" aria-live="polite" role="status"></p>
+
+        <!-- Listado de cursos registrados -->
+        <section class="cursos-section cursos-listado" aria-labelledby="cursos-asignados-titulo">
+          <div class="cursos-listado-heading">
+            <h2 id="cursos-asignados-titulo">Cursos asignados</h2>
+            <p id="contador-cursos" class="contador-cursos" aria-live="polite">Cursos asignados: 0</p>
+          </div>
+
+          <p id="estado-vacio-cursos" class="estado-vacio-cursos">No hay cursos registrados.</p>
+          <div class="tabla-responsive">
+            <table id="lista-cursos" aria-describedby="contador-cursos">
+              <thead>
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Docente</th>
+                  <th scope="col">Horario</th>
+                  <th scope="col"><span class="sr-only">Acciones</span></th>
+                </tr>
+              </thead>
+              <tbody id="lista-cursos-cuerpo"></tbody>
+            </table>
+          </div>
+        </section>
       </div>
 
+      <!-- Región complementaria conservada para la estructura accesible del portal -->
       <p id="resultado-10" class="result" aria-live="polite"></p>
     </section>
   </main>
