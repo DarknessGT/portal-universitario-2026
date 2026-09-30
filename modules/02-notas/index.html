@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 02 - Notas</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    #form-02 { display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin: 0 auto; padding: 24px 0; }
+    #form-02 input { padding: 10px 12px; border: 1px solid #b8c4d6; border-radius: 10px; font-size: 1rem; }
+    #form-02 input:focus { outline: 2px solid #0a5a9c; border-color: transparent; }
+    #form-02 button { padding: 11px; border: 0; border-radius: 10px; background: #0a5a9c; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    #form-02 button:hover { background: #084878; }
+    #resultado-02 { text-align: center; font-size: 1.2rem; font-weight: 600; }
+  </style>
 </head>
 <body>
   <main class="module-page">
@@ -20,8 +28,12 @@
       </div>
 
       <div id="app-02" class="student-area">
-        <!-- TODO ESTUDIANTE 02: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <form id="form-02">
+          <input type="number" id="nota1-02" placeholder="Nota 1" step="any">
+          <input type="number" id="nota2-02" placeholder="Nota 2" step="any">
+          <input type="number" id="nota3-02" placeholder="Nota 3" step="any">
+          <button type="submit" id="btn-calcular-02">Calcular promedio</button>
+        </form>
       </div>
 
       <p id="resultado-02" class="result" aria-live="polite"></p>
