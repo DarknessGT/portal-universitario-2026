@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 21 - Validación</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    #form-21{width:100%;display:grid;gap:14px}
+    #form-21 label{display:grid;gap:4px;font-weight:700}
+    #form-21 input,#form-21 select{padding:10px 12px;border:1px solid #b9c8d9;border-radius:8px;font:inherit}
+    #form-21 .check{display:flex;gap:8px;align-items:center;font-weight:400}
+    #form-21 .invalido{border-color:#c53030;background:#fff5f5}
+    .error-21{color:#c53030;font-size:.85rem;font-weight:400;min-height:1em}
+    #btn-inscribir-21{padding:12px;border:0;border-radius:8px;background:#0b5d9a;color:#fff;font-weight:800;cursor:pointer}
+    #resultado-21.ok{color:#2f855a}
+    #resultado-21.fallo{color:#c53030}
+  </style>
 </head>
 <body>
   <main class="module-page">
@@ -20,8 +31,47 @@
       </div>
 
       <div id="app-21" class="student-area">
-        <!-- TODO ESTUDIANTE 21: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <form id="form-21" novalidate>
+          <label>Nombre completo
+            <input id="nombre-21" name="nombre" type="text" maxlength="80" autocomplete="name">
+            <span id="error-nombre-21" class="error-21"></span>
+          </label>
+          <label>Carné (9 a 12 dígitos, puede llevar guiones)
+            <input id="carne-21" name="carne" type="text" maxlength="16">
+            <span id="error-carne-21" class="error-21"></span>
+          </label>
+          <label>Correo electrónico
+            <input id="correo-21" name="correo" type="email" maxlength="100" autocomplete="email">
+            <span id="error-correo-21" class="error-21"></span>
+          </label>
+          <label>Teléfono (8 dígitos)
+            <input id="telefono-21" name="telefono" type="text" maxlength="8" inputmode="numeric">
+            <span id="error-telefono-21" class="error-21"></span>
+          </label>
+          <label>Fecha de nacimiento
+            <input id="nacimiento-21" name="nacimiento" type="date">
+            <span id="error-nacimiento-21" class="error-21"></span>
+          </label>
+          <label>Carrera
+            <select id="carrera-21" name="carrera">
+              <option value="">-- Seleccione --</option>
+              <option value="sistemas">Ingeniería en Sistemas</option>
+              <option value="industrial">Ingeniería Industrial</option>
+              <option value="administracion">Administración de Empresas</option>
+              <option value="derecho">Derecho</option>
+            </select>
+            <span id="error-carrera-21" class="error-21"></span>
+          </label>
+          <label>Semestre (1 a 10)
+            <input id="semestre-21" name="semestre" type="number" min="1" max="10">
+            <span id="error-semestre-21" class="error-21"></span>
+          </label>
+          <label class="check">
+            <input id="terminos-21" name="terminos" type="checkbox"> Acepto los términos de inscripción
+          </label>
+          <span id="error-terminos-21" class="error-21"></span>
+          <button id="btn-inscribir-21" type="submit">Inscribirme</button>
+        </form>
       </div>
 
       <p id="resultado-21" class="result" aria-live="polite"></p>
