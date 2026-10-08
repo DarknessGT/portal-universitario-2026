@@ -3,28 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo 24 - Reporte</title>
+  <title>Módulo 24 - Reporte de mi entrega</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    #app-24 { display: block; }
+    #reporte-form { width: 100%; }
+    #reporte-form fieldset { border: 1px solid #c7d5e4; border-radius: 10px; margin: 0 0 20px; padding: 16px; }
+    #reporte-form legend { color: #183b63; font-weight: 700; padding: 0 6px; }
+    #reporte-form label { display: block; font-weight: 600; margin: 12px 0 5px; }
+    #reporte-form input, #reporte-form select { background: white; border: 1px solid #a7b8cb; border-radius: 8px; color: #172033; font: inherit; padding: 10px; width: 100%; }
+    #reporte-form [aria-invalid="true"] { border-color: #b42318; }
+    #reporte-form button { background: #0b5d9a; border: 0; border-radius: 8px; color: white; cursor: pointer; font: inherit; font-weight: 700; padding: 12px 20px; }
+    #reporte-form button:hover { background: #084775; }
+    .reporte-ayuda { color: #52667d; font-size: .9rem; margin: 4px 0 10px; }
+    .reporte-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    .reporte-prueba { border-top: 1px solid #dbe3ee; padding-top: 8px; }
+    #errores-24 { color: #a11b12; margin-top: 15px; }
+    #errores-24:empty, #resultado-24:empty { display: none; }
+    #resultado-24 { font-weight: 400; }
+    #resultado-24 h2 { color: #183b63; font-size: 1.25rem; }
+    #resultado-24 h3 { font-size: 1rem; margin-bottom: 4px; }
+    #resultado-24 ul { margin-top: 4px; }
+    #resultado-24 .reporte-estado { font-weight: 700; }
+  </style>
 </head>
 <body>
   <main class="module-page">
     <a class="back-link" href="../../index.html">← Volver al portal</a>
     <section class="module-workspace">
       <span class="student-badge">Estudiante 24</span>
-      <h1>Reporte</h1>
-      <p><strong>Actividad:</strong> Generar un resumen de información registrada.</p>
-
+      <h1>Reporte de mi entrega</h1>
+      <p>Registra la evidencia de tu trabajo y genera un resumen para revisar qué requisitos faltan.</p>
       <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
+        <strong>Información declarada por ti.</strong>
+        <p>Este módulo no consulta GitHub ni ejecuta el pipeline. Introduce datos y enlaces reales antes de compartir el reporte.</p>
       </div>
-
       <div id="app-24" class="student-area">
-        <!-- TODO ESTUDIANTE 24: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <form id="reporte-form" novalidate>
+          <fieldset>
+            <legend>Funcionalidad y commits</legend>
+            <label for="funcionalidad-24">Nombre de la funcionalidad</label>
+            <input id="funcionalidad-24" type="text" maxlength="100" autocomplete="off" required>
+            <p class="reporte-ayuda">Escribe qué funcionalidad implementaste.</p>
+            <div class="reporte-grid">
+              <div><label for="commit-1">Commit 1</label><input id="commit-1" type="text" maxlength="40" spellcheck="false" required></div>
+              <div><label for="commit-2">Commit 2</label><input id="commit-2" type="text" maxlength="40" spellcheck="false" required></div>
+              <div><label for="commit-3">Commit 3</label><input id="commit-3" type="text" maxlength="40" spellcheck="false" required></div>
+            </div>
+            <p class="reporte-ayuda">Usa identificadores distintos de 7 a 40 caracteres hexadecimales; no inventes commits.</p>
+          </fieldset>
+          <fieldset>
+            <legend>Cinco casos de prueba</legend>
+            <p class="reporte-ayuda">Escribe un nombre breve y el resultado de cada caso documentado.</p>
+            <div class="reporte-prueba reporte-grid"><div><label for="prueba-1">Caso 1</label><input id="prueba-1" type="text" maxlength="120" required></div><div><label for="estado-prueba-1">Resultado 1</label><select id="estado-prueba-1" required><option value="">Selecciona</option><option value="aprobada">Aprobada</option><option value="fallida">Fallida</option><option value="pendiente">Pendiente</option></select></div></div>
+            <div class="reporte-prueba reporte-grid"><div><label for="prueba-2">Caso 2</label><input id="prueba-2" type="text" maxlength="120" required></div><div><label for="estado-prueba-2">Resultado 2</label><select id="estado-prueba-2" required><option value="">Selecciona</option><option value="aprobada">Aprobada</option><option value="fallida">Fallida</option><option value="pendiente">Pendiente</option></select></div></div>
+            <div class="reporte-prueba reporte-grid"><div><label for="prueba-3">Caso 3</label><input id="prueba-3" type="text" maxlength="120" required></div><div><label for="estado-prueba-3">Resultado 3</label><select id="estado-prueba-3" required><option value="">Selecciona</option><option value="aprobada">Aprobada</option><option value="fallida">Fallida</option><option value="pendiente">Pendiente</option></select></div></div>
+            <div class="reporte-prueba reporte-grid"><div><label for="prueba-4">Caso 4</label><input id="prueba-4" type="text" maxlength="120" required></div><div><label for="estado-prueba-4">Resultado 4</label><select id="estado-prueba-4" required><option value="">Selecciona</option><option value="aprobada">Aprobada</option><option value="fallida">Fallida</option><option value="pendiente">Pendiente</option></select></div></div>
+            <div class="reporte-prueba reporte-grid"><div><label for="prueba-5">Caso 5</label><input id="prueba-5" type="text" maxlength="120" required></div><div><label for="estado-prueba-5">Resultado 5</label><select id="estado-prueba-5" required><option value="">Selecciona</option><option value="aprobada">Aprobada</option><option value="fallida">Fallida</option><option value="pendiente">Pendiente</option></select></div></div>
+          </fieldset>
+          <fieldset>
+            <legend>Automatización, pipeline y revisión</legend>
+            <div class="reporte-grid">
+              <div><label for="automatizada-24">Prueba automatizada</label><select id="automatizada-24"><option value="pendiente">Pendiente</option><option value="aprobada">Aprobada</option><option value="fallida">Fallida</option></select></div>
+              <div><label for="pipeline-24">Pipeline</label><select id="pipeline-24"><option value="pendiente">Pendiente</option><option value="aprobada">Exitoso</option><option value="fallida">Fallido</option></select></div>
+            </div>
+            <label for="pipeline-url-24">Enlace a la ejecución del pipeline</label>
+            <input id="pipeline-url-24" type="url" inputmode="url" placeholder="https://github.com/..." maxlength="500">
+            <p class="reporte-ayuda">El enlace es obligatorio si marcas el pipeline como exitoso.</p>
+            <div class="reporte-grid">
+              <div><label for="revisor-24">Nombre del compañero revisor</label><input id="revisor-24" type="text" maxlength="100"></div>
+              <div><label for="revision-24">Estado de revisión</label><select id="revision-24"><option value="pendiente">Pendiente</option><option value="aprobada">Aprobada</option><option value="cambios">Cambios solicitados</option></select></div>
+            </div>
+            <p class="reporte-ayuda">El nombre es obligatorio si marcas la revisión como aprobada.</p>
+          </fieldset>
+          <button type="submit">Generar reporte</button>
+        </form>
       </div>
-
-      <p id="resultado-24" class="result" aria-live="polite"></p>
+      <div id="errores-24" role="alert" aria-live="assertive"></div>
+      <section id="resultado-24" class="result" aria-live="polite" aria-label="Reporte generado"></section>
     </section>
   </main>
   <script src="../../js/app.js"></script>

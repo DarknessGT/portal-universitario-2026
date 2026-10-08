@@ -1,0 +1,10 @@
+test_01_datos_completos_generan_resumen (test_reporte.ReporteSeleniumTest.test_01_datos_completos_generan_resumen) ... ok
+test_02_nombre_vacio_muestra_error (test_reporte.ReporteSeleniumTest.test_02_nombre_vacio_muestra_error) ... ok
+test_03_falta_un_commit (test_reporte.ReporteSeleniumTest.test_03_falta_un_commit) ... ok
+test_04_commit_invalido (test_reporte.ReporteSeleniumTest.test_04_commit_invalido) ... ok
+test_05_caso_sin_nombre_ni_resultado (test_reporte.ReporteSeleniumTest.test_05_caso_sin_nombre_ni_resultado) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 16.022s
+
+OK
