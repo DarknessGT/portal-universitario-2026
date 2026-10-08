@@ -5,9 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 05 - Calculadora</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    .calculadora-page.module-page {
+      padding-right: clamp(12px, 4vw, 20px);
+      padding-left: clamp(12px, 4vw, 20px);
+    }
+
+    .calculadora-page .module-workspace {
+      padding: clamp(14px, 5vw, 30px);
+    }
+
+    .calculadora-page .student-area {
+      padding: clamp(10px, 3.75vw, 24px);
+    }
+
+    .calculator-shell {
+      width: min(100%, 360px);
+      min-width: 0;
+    }
+
+    .calculator-display {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-end;
+      gap: 2px;
+      width: 100%;
+      min-width: 0;
+      min-height: 72px;
+      margin-bottom: 12px;
+      padding: 12px 16px;
+      overflow-wrap: anywhere;
+      border: 1px solid #b9c8d9;
+      border-radius: 10px;
+      background: white;
+      color: #172033;
+      text-align: right;
+    }
+
+    .calculator-expression {
+      display: block;
+      min-height: 1.25em;
+      overflow-wrap: anywhere;
+      color: #56677b;
+      font-size: clamp(.8rem, 3vw, 1rem);
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .calculator-value {
+      display: block;
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-size: clamp(1.25rem, 6vw, 2rem);
+      font-weight: 700;
+    }
+
+    .calculator-display:focus-visible,
+    .calculator-button:focus-visible {
+      outline: 3px solid #0b5d9a;
+      outline-offset: 2px;
+    }
+
+    .calculator-keys {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .calculator-button {
+      min-width: 0;
+      min-height: 52px;
+      padding: 8px;
+      border: 1px solid #b9c8d9;
+      border-radius: 10px;
+      background: white;
+      color: #172033;
+      cursor: pointer;
+      font: inherit;
+      font-size: 1.15rem;
+      font-weight: 700;
+      touch-action: manipulation;
+    }
+
+    .calculator-button:hover {
+      border-color: #6ba8d8;
+      background: #f4f7fb;
+    }
+
+    .calculator-button--operator {
+      border-color: #c7dced;
+      background: #e8f2fb;
+      color: #0b5d9a;
+    }
+
+    .calculator-button--clear {
+      color: #7a2631;
+    }
+
+    .calculator-button--equals {
+      grid-column: 1 / -1;
+      border-color: #0b5d9a;
+      background: #0b5d9a;
+      color: white;
+    }
+
+    .calculator-button--equals:hover {
+      border-color: #083f6b;
+      background: #083f6b;
+    }
+  </style>
 </head>
 <body>
-  <main class="module-page">
+  <main class="module-page calculadora-page">
     <a class="back-link" href="../../index.html">← Volver al portal</a>
     <section class="module-workspace">
       <span class="student-badge">Estudiante 05</span>
@@ -15,16 +125,44 @@
       <p><strong>Actividad:</strong> Realizar suma, resta, multiplicación y división.</p>
 
       <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
+        <strong>Cómo usarla.</strong>
+        <p>Ingresa una operación con los botones o el teclado. Pulsa Escape para limpiar y, con la pantalla enfocada, Enter para calcular.</p>
       </div>
 
-      <div id="app-05" class="student-area">
-        <!-- TODO ESTUDIANTE 05: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+      <div id="app-05" class="student-area" role="group" aria-label="Calculadora">
+        <div class="calculator-shell">
+          <output id="pantalla-05" class="calculator-display" tabindex="0" aria-label="Pantalla de la calculadora" aria-describedby="expresion-05 resultado-05" aria-live="off">
+            <span id="expresion-05" class="calculator-expression" aria-live="polite"></span>
+            <span id="valor-05" class="calculator-value">0</span>
+          </output>
+
+          <div id="calculadora-botones" class="calculator-keys" role="group" aria-label="Teclas de la calculadora">
+            <button class="calculator-button calculator-button--clear" type="button" data-action="clear" aria-label="Limpiar">C</button>
+            <button class="calculator-button" type="button" data-action="digit" data-value="7">7</button>
+            <button class="calculator-button" type="button" data-action="digit" data-value="8">8</button>
+            <button class="calculator-button" type="button" data-action="digit" data-value="9">9</button>
+
+            <button class="calculator-button" type="button" data-action="digit" data-value="4">4</button>
+            <button class="calculator-button" type="button" data-action="digit" data-value="5">5</button>
+            <button class="calculator-button" type="button" data-action="digit" data-value="6">6</button>
+            <button class="calculator-button calculator-button--operator" type="button" data-action="operator" data-value="/" aria-label="Dividir">÷</button>
+
+            <button class="calculator-button" type="button" data-action="digit" data-value="1">1</button>
+            <button class="calculator-button" type="button" data-action="digit" data-value="2">2</button>
+            <button class="calculator-button" type="button" data-action="digit" data-value="3">3</button>
+            <button class="calculator-button calculator-button--operator" type="button" data-action="operator" data-value="*" aria-label="Multiplicar">×</button>
+
+            <button class="calculator-button" type="button" data-action="digit" data-value="0">0</button>
+            <button class="calculator-button calculator-button--decimal" type="button" data-action="decimal" aria-label="Separador decimal">.</button>
+            <button class="calculator-button calculator-button--operator" type="button" data-action="operator" data-value="-" aria-label="Restar">−</button>
+            <button class="calculator-button calculator-button--operator" type="button" data-action="operator" data-value="+" aria-label="Sumar">+</button>
+
+            <button class="calculator-button calculator-button--equals" type="button" data-action="calculate" aria-label="Calcular resultado">=</button>
+          </div>
+        </div>
       </div>
 
-      <p id="resultado-05" class="result" aria-live="polite"></p>
+      <p id="resultado-05" class="result" role="status" aria-live="polite"></p>
     </section>
   </main>
   <script src="../../js/app.js"></script>

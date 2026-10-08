@@ -4,12 +4,240 @@
 // Evite modificar módulos asignados a otros compañeros.
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Módulo 05 - Calculadora: listo para desarrollar.");
+  const calculator = document.getElementById("app-05");
+  const display = document.getElementById("pantalla-05");
+  const expression = document.getElementById("expresion-05");
+  const valueDisplay = document.getElementById("valor-05");
+  const status = document.getElementById("resultado-05");
 
-  // TODO ESTUDIANTE 05:
-  // 1. Implemente la lógica de la funcionalidad.
-  // 2. Valide entradas.
-  // 3. Muestre resultados claros.
-  // 4. Prepare al menos 5 casos de prueba.
-  // 5. Automatice al menos 1 caso de prueba.
+  if (!calculator || !display || !expression || !valueDisplay || !status) return;
+
+  const MAX_DIGITS = 12;
+  let displayValue = "0";
+  let currentValue = 0;
+  let accumulator = null;
+  let operator = null;
+  let waitingForOperand = false;
+  let justCalculated = false;
+  let hasError = false;
+  let expressionValue = "";
+
+  const operatorSymbol = selectedOperator => ({ "*": "×", "/": "÷", "-": "−" }[selectedOperator] ?? selectedOperator);
+
+  const formatNumber = value => {
+    if (Object.is(value, -0)) return "0";
+    return Number(value.toPrecision(12)).toString();
+  };
+
+  const render = () => {
+    valueDisplay.textContent = displayValue;
+  };
+
+  const renderExpression = () => {
+    expression.textContent = expressionValue;
+  };
+
+  const updatePendingExpression = () => {
+    if (operator === null || accumulator === null) {
+      expressionValue = "";
+    } else {
+      expressionValue = `${formatNumber(accumulator)} ${operatorSymbol(operator)}`;
+      if (!waitingForOperand) expressionValue += ` ${displayValue}`;
+    }
+    renderExpression();
+  };
+
+  const clear = () => {
+    displayValue = "0";
+    currentValue = 0;
+    accumulator = null;
+    operator = null;
+    waitingForOperand = false;
+    justCalculated = false;
+    hasError = false;
+    expressionValue = "";
+    status.textContent = "";
+    renderExpression();
+    render();
+  };
+
+  const startFreshEntry = () => {
+    displayValue = "0";
+    currentValue = 0;
+    accumulator = null;
+    operator = null;
+    waitingForOperand = false;
+    justCalculated = false;
+    hasError = false;
+    expressionValue = "";
+  };
+
+  const showError = message => {
+    displayValue = "Error";
+    accumulator = null;
+    operator = null;
+    waitingForOperand = false;
+    justCalculated = false;
+    hasError = true;
+    status.textContent = message;
+    render();
+  };
+
+  const calculate = (left, right, selectedOperator) => {
+    switch (selectedOperator) {
+      case "+":
+        return left + right;
+      case "-":
+        return left - right;
+      case "*":
+        return left * right;
+      case "/":
+        if (right === 0) return null;
+        return left / right;
+      default:
+        return null;
+    }
+  };
+
+  const selectOperator = nextOperator => {
+    if (hasError) return;
+
+    if (operator !== null && !waitingForOperand) {
+      const result = calculate(accumulator, currentValue, operator);
+      if (result === null || !Number.isFinite(result)) {
+        showError(result === null ? "No se puede dividir entre cero." : "El resultado está fuera del rango permitido.");
+        return;
+      }
+
+      accumulator = result;
+      currentValue = result;
+      displayValue = formatNumber(result);
+    } else if (operator === null) {
+      accumulator = currentValue;
+    }
+
+    operator = nextOperator;
+    waitingForOperand = true;
+    justCalculated = false;
+    status.textContent = "";
+    updatePendingExpression();
+    render();
+  };
+
+  const enterDigit = digit => {
+    if (hasError || justCalculated) startFreshEntry();
+
+    if (waitingForOperand) {
+      displayValue = digit;
+      waitingForOperand = false;
+    } else if (displayValue.replace(/\D/g, "").length < MAX_DIGITS) {
+      displayValue = displayValue === "0" ? digit : `${displayValue}${digit}`;
+    } else {
+      status.textContent = `Se permiten hasta ${MAX_DIGITS} dígitos por número.`;
+      return;
+    }
+
+    currentValue = Number(displayValue);
+    hasError = false;
+    justCalculated = false;
+    status.textContent = "";
+    updatePendingExpression();
+    render();
+  };
+
+  const enterDecimal = () => {
+    if (hasError || justCalculated) startFreshEntry();
+
+    if (waitingForOperand) {
+      displayValue = "0.";
+      waitingForOperand = false;
+    } else if (displayValue.includes(".")) {
+      status.textContent = "Usa un solo separador decimal por número.";
+      return;
+    } else if (displayValue.replace(/\D/g, "").length >= MAX_DIGITS) {
+      status.textContent = `Se permiten hasta ${MAX_DIGITS} dígitos por número.`;
+      return;
+    } else {
+      displayValue = `${displayValue}.`;
+    }
+
+    currentValue = Number(displayValue);
+    hasError = false;
+    justCalculated = false;
+    status.textContent = "";
+    updatePendingExpression();
+    render();
+  };
+
+  const calculateResult = () => {
+    if (hasError || operator === null) return;
+    if (waitingForOperand) {
+      status.textContent = "Ingresa el segundo número antes de calcular.";
+      return;
+    }
+
+    const left = accumulator;
+    const right = currentValue;
+    const selectedOperator = operator;
+    const completedExpression = `${formatNumber(left)} ${operatorSymbol(selectedOperator)} ${formatNumber(right)}`;
+    const result = calculate(left, right, selectedOperator);
+
+    if (result === null || !Number.isFinite(result)) {
+      expressionValue = `${completedExpression} =`;
+      renderExpression();
+      showError(result === null ? "No se puede dividir entre cero." : "El resultado está fuera del rango permitido.");
+      return;
+    }
+
+    currentValue = result;
+    displayValue = formatNumber(result);
+    accumulator = null;
+    operator = null;
+    waitingForOperand = false;
+    justCalculated = true;
+    expressionValue = `${completedExpression} = ${displayValue}`;
+    status.textContent = "";
+    renderExpression();
+    render();
+  };
+
+  const perform = (action, value) => {
+    if (action === "clear") clear();
+    if (action === "digit") enterDigit(value);
+    if (action === "decimal") enterDecimal();
+    if (action === "operator") selectOperator(value);
+    if (action === "calculate") calculateResult();
+  };
+
+  calculator.addEventListener("click", event => {
+    const button = event.target.closest("button[data-action]");
+    if (!button || !calculator.contains(button)) return;
+    perform(button.dataset.action, button.dataset.value);
+  });
+
+  calculator.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      calculateResult();
+      return;
+    }
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      clear();
+      return;
+    }
+
+    if (event.key === " " && event.target instanceof HTMLButtonElement) return;
+
+    if (/^[0-9]$/.test(event.key)) perform("digit", event.key);
+    else if (event.key === "." || event.key === ",") perform("decimal");
+    else if (["+", "-", "−", "*", "x", "X", "×", "/", "÷"].includes(event.key)) {
+      const operators = { "−": "-", x: "*", X: "*", "×": "*", "/": "/", "÷": "/" };
+      perform("operator", operators[event.key] ?? event.key);
+    } else if (event.key === "=") {
+      event.preventDefault();
+      calculateResult();
+    }
+  });
 });
