@@ -5,6 +5,340 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 12 - Encuesta</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    .encuesta-shell {
+      width: min(100%, 600px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .encuesta-fieldset {
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .encuesta-question {
+      display: block;
+      padding: 0;
+      margin-bottom: 10px;
+      color: #172033;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .encuesta-type {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #e8f2fb;
+      color: #0b5d9a;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+
+    .encuesta-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .encuesta-options--inline {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .encuesta-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 10px 14px;
+      border: 1px solid #b9c8d9;
+      border-radius: 10px;
+      background: white;
+      color: #172033;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .encuesta-options--inline .encuesta-option {
+      flex: 1 1 90px;
+      justify-content: center;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .encuesta-option:hover {
+      border-color: #6ba8d8;
+      background: #f4f7fb;
+    }
+
+    .encuesta-option:has(input:checked) {
+      border-color: #0b5d9a;
+      background: #e8f2fb;
+      color: #0b5d9a;
+    }
+
+    .encuesta-option:focus-within {
+      outline: 3px solid #0b5d9a;
+      outline-offset: 2px;
+    }
+
+    .encuesta-option input {
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      flex-shrink: 0;
+      accent-color: #0b5d9a;
+      cursor: pointer;
+    }
+
+    .encuesta-option--scale {
+      flex-direction: column;
+      gap: 2px;
+      padding: 8px 10px;
+    }
+
+    .encuesta-scale-value {
+      font-size: 1.1rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .encuesta-scale-label {
+      font-size: .72rem;
+      font-weight: 600;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+
+    .encuesta-option:has(input:disabled),
+    .encuesta-option input:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .encuesta-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .encuesta-label {
+      color: #172033;
+      font-weight: 700;
+    }
+
+    .encuesta-textarea {
+      width: 100%;
+      min-height: 96px;
+      padding: 10px 14px;
+      border: 1px solid #b9c8d9;
+      border-radius: 10px;
+      background: white;
+      color: #172033;
+      font: inherit;
+      line-height: 1.4;
+      resize: vertical;
+    }
+
+    .encuesta-textarea:focus-visible {
+      outline: 3px solid #0b5d9a;
+      outline-offset: 2px;
+    }
+
+    .encuesta-textarea:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .encuesta-hint {
+      margin: 0;
+      color: #56677b;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+
+    .encuesta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .encuesta-button {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 48px;
+      padding: 10px 16px;
+      border: 1px solid #b9c8d9;
+      border-radius: 10px;
+      background: white;
+      color: #172033;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .encuesta-button:hover:not(:disabled) {
+      border-color: #6ba8d8;
+      background: #f4f7fb;
+    }
+
+    .encuesta-button:focus-visible {
+      outline: 3px solid #0b5d9a;
+      outline-offset: 2px;
+    }
+
+    .encuesta-button--primary {
+      border-color: #0b5d9a;
+      background: #0b5d9a;
+      color: white;
+    }
+
+    .encuesta-button--primary:hover:not(:disabled) {
+      border-color: #083f6b;
+      background: #083f6b;
+    }
+
+    .encuesta-button--danger {
+      color: #7a2631;
+    }
+
+    .encuesta-button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .encuesta-results {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+    }
+
+    .encuesta-results[hidden] {
+      display: none;
+    }
+
+    .encuesta-result-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .encuesta-result-title {
+      margin: 0;
+      color: #56677b;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .encuesta-result-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .encuesta-result-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4px 10px;
+      font-size: .95rem;
+    }
+
+    .encuesta-result-label {
+      color: #172033;
+      font-weight: 700;
+    }
+
+    .encuesta-result-stats {
+      color: #56677b;
+      font-weight: 600;
+    }
+
+    .encuesta-bar-track {
+      height: 14px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e6edf5;
+    }
+
+    .encuesta-bar-fill {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: 999px;
+      background: #0b5d9a;
+      transition: width .25s ease;
+    }
+
+    .encuesta-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      margin: 0;
+      padding: 10px 14px;
+      border: 1px solid #c7dced;
+      border-radius: 10px;
+      background: #f4f9fd;
+      color: #172033;
+      font-size: .95rem;
+      font-weight: 700;
+    }
+
+    .encuesta-answers {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .encuesta-answer {
+      padding: 10px 14px;
+      border: 1px solid #dfe7f0;
+      border-left: 4px solid #0b5d9a;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: #172033;
+      font-size: .92rem;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .encuesta-empty {
+      margin: 0;
+      color: #718096;
+      font-size: .9rem;
+      font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      .encuesta-option {
+        padding: 8px 10px;
+      }
+
+      .encuesta-button {
+        padding: 10px 12px;
+        font-size: .95rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="module-page">
@@ -20,8 +354,208 @@
       </div>
 
       <div id="app-12" class="student-area">
-        <!-- TODO ESTUDIANTE 12: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <form id="encuesta-form-12" class="encuesta-shell" novalidate>
+          <fieldset class="encuesta-fieldset" data-question="q1">
+            <legend class="encuesta-question">
+              ¿Qué servicios del portal utilizas con más frecuencia?
+              <span class="encuesta-type">Opción múltiple</span>
+            </legend>
+            <div class="encuesta-options">
+              <label class="encuesta-option">
+                <input type="checkbox" name="q1-12" value="notas" data-option="notas">
+                <span>Notas</span>
+              </label>
+              <label class="encuesta-option">
+                <input type="checkbox" name="q1-12" value="calendario" data-option="calendario">
+                <span>Calendario</span>
+              </label>
+              <label class="encuesta-option">
+                <input type="checkbox" name="q1-12" value="biblioteca" data-option="biblioteca">
+                <span>Biblioteca</span>
+              </label>
+              <label class="encuesta-option">
+                <input type="checkbox" name="q1-12" value="eventos" data-option="eventos">
+                <span>Eventos</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="encuesta-fieldset" data-question="q2">
+            <legend class="encuesta-question">
+              ¿Por qué canal prefieres recibir avisos?
+              <span class="encuesta-type">Opción única</span>
+            </legend>
+            <div class="encuesta-options encuesta-options--inline">
+              <label class="encuesta-option">
+                <input type="radio" name="q2-12" value="portal" data-option="portal">
+                <span>Portal</span>
+              </label>
+              <label class="encuesta-option">
+                <input type="radio" name="q2-12" value="correo" data-option="correo">
+                <span>Correo</span>
+              </label>
+              <label class="encuesta-option">
+                <input type="radio" name="q2-12" value="sms" data-option="sms">
+                <span>SMS</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="encuesta-fieldset" data-question="q3">
+            <legend class="encuesta-question">
+              ¿Qué tan satisfecho estás con el portal?
+              <span class="encuesta-type">Escala 1 a 5</span>
+            </legend>
+            <div class="encuesta-options encuesta-options--inline">
+              <label class="encuesta-option encuesta-option--scale">
+                <input type="radio" name="q3-12" value="1" data-option="1">
+                <span class="encuesta-scale-value">1</span>
+                <span class="encuesta-scale-label">Muy insatisfecho</span>
+              </label>
+              <label class="encuesta-option encuesta-option--scale">
+                <input type="radio" name="q3-12" value="2" data-option="2">
+                <span class="encuesta-scale-value">2</span>
+                <span class="encuesta-scale-label">Insatisfecho</span>
+              </label>
+              <label class="encuesta-option encuesta-option--scale">
+                <input type="radio" name="q3-12" value="3" data-option="3">
+                <span class="encuesta-scale-value">3</span>
+                <span class="encuesta-scale-label">Neutral</span>
+              </label>
+              <label class="encuesta-option encuesta-option--scale">
+                <input type="radio" name="q3-12" value="4" data-option="4">
+                <span class="encuesta-scale-value">4</span>
+                <span class="encuesta-scale-label">Satisfecho</span>
+              </label>
+              <label class="encuesta-option encuesta-option--scale">
+                <input type="radio" name="q3-12" value="5" data-option="5">
+                <span class="encuesta-scale-value">5</span>
+                <span class="encuesta-scale-label">Muy satisfecho</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="encuesta-field">
+            <label class="encuesta-label" for="comentario-12">
+              ¿Qué mejorarías del portal?
+              <span class="encuesta-type">De rellenar</span>
+            </label>
+            <textarea id="comentario-12" class="encuesta-textarea" name="comentario-12" rows="3" maxlength="200" placeholder="Escribe tu sugerencia (opcional, máximo 200 caracteres)"></textarea>
+            <p id="contador-12" class="encuesta-hint" aria-live="polite">0/200</p>
+          </div>
+
+          <div class="encuesta-actions">
+            <button id="enviar-12" class="encuesta-button encuesta-button--primary" type="submit">Registrar respuesta</button>
+            <button id="nuevo-voto-12" class="encuesta-button" type="button" disabled>Votar otra vez</button>
+            <button id="reiniciar-12" class="encuesta-button encuesta-button--danger" type="button">Reiniciar encuesta</button>
+          </div>
+
+          <div id="resultados-12" class="encuesta-results" role="group" aria-label="Resultados de la encuesta" data-records="0" hidden>
+            <div class="encuesta-result-block" data-result="q1">
+              <p class="encuesta-result-title">Servicios utilizados (opción múltiple)</p>
+              <div class="encuesta-result-row" data-option="notas" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">Notas</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="calendario" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">Calendario</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="biblioteca" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">Biblioteca</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="eventos" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">Eventos</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+            </div>
+
+            <div class="encuesta-result-block" data-result="q2">
+              <p class="encuesta-result-title">Canal de avisos (opción única)</p>
+              <div class="encuesta-result-row" data-option="portal" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">Portal</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="correo" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">Correo</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="sms" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">SMS</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+            </div>
+
+            <div class="encuesta-result-block" data-result="q3">
+              <p class="encuesta-result-title">Satisfacción (escala 1 a 5)</p>
+              <p class="encuesta-summary">Promedio: <span id="promedio-12" data-average="">—</span> · Respuestas: <span id="escala-total-12" data-scale-records="0">0</span></p>
+              <div class="encuesta-result-row" data-option="1" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">1 · Muy insatisfecho</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="2" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">2 · Insatisfecho</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="3" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">3 · Neutral</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="4" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">4 · Satisfecho</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+              <div class="encuesta-result-row" data-option="5" data-votes="0" data-percent="0">
+                <div class="encuesta-result-head">
+                  <span class="encuesta-result-label">5 · Muy satisfecho</span>
+                  <span class="encuesta-result-stats">0 votos · 0%</span>
+                </div>
+                <div class="encuesta-bar-track"><span class="encuesta-bar-fill"></span></div>
+              </div>
+            </div>
+
+            <div class="encuesta-result-block" data-result="q4">
+              <p class="encuesta-result-title">Sugerencias de mejora (texto libre)</p>
+              <p class="encuesta-summary">Respuestas de texto: <span id="comentarios-12" data-answers="0">0</span></p>
+              <ul id="lista-comentarios-12" class="encuesta-answers"></ul>
+              <p id="sin-comentarios-12" class="encuesta-empty">Aún no hay sugerencias registradas.</p>
+            </div>
+          </div>
+        </form>
       </div>
 
       <p id="resultado-12" class="result" aria-live="polite"></p>
