@@ -1,0 +1,262 @@
+/* MÓDULO 01: Perfil — estilos propios del módulo (paleta del portal) */
+
+/* Contenedor: anula el centrado en grid de .student-area solo para este módulo */
+#app-01 {
+  display: block;
+  place-items: normal;
+  min-height: 0;
+  border: 1px solid #dfe7f0;
+  background: #f8fafc;
+  padding: 24px;
+}
+
+#app-01 [hidden] {
+  display: none !important;
+}
+
+/* Formulario */
+#app-01 .perfil-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 20px;
+  margin: 0;
+}
+
+#app-01 .perfil-titulo {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 1.25rem;
+  color: #0b315c;
+}
+
+#app-01 .perfil-descripcion {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #56677b;
+  font-size: .92rem;
+}
+
+#app-01 .campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+#app-01 .campo--completo {
+  grid-column: 1 / -1;
+}
+
+#app-01 .campo label {
+  font-weight: 700;
+  color: #183b63;
+}
+
+#app-01 .obligatorio {
+  color: #b42318;
+}
+
+#app-01 .campo input,
+#app-01 .campo select {
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 14px;
+  border: 1px solid #b9c8d9;
+  border-radius: 10px;
+  background: white;
+  color: #172033;
+  font: inherit;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+#app-01 .campo input::placeholder {
+  color: #8a9aab;
+}
+
+#app-01 .campo input:hover,
+#app-01 .campo select:hover {
+  border-color: #6ba8d8;
+}
+
+#app-01 .campo input:focus,
+#app-01 .campo select:focus {
+  outline: none;
+  border-color: #0b5d9a;
+  box-shadow: 0 0 0 3px #0b5d9a33;
+}
+
+#app-01 .campo-ayuda {
+  color: #56677b;
+  font-size: .84rem;
+}
+
+/* Errores por campo */
+#app-01 .campo-error {
+  color: #b42318;
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+#app-01 .campo-error:empty {
+  display: none;
+}
+
+#app-01 .campo [aria-invalid="true"] {
+  border-color: #b42318;
+  background: #fdecea;
+}
+
+#app-01 .campo [aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px #b4231833;
+}
+
+/* Botones */
+#app-01 .acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+#app-01 .boton {
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .2s, border-color .2s, color .2s;
+}
+
+#app-01 .boton:focus-visible {
+  outline: 3px solid #0b5d9a66;
+  outline-offset: 2px;
+}
+
+#app-01 .boton--primario {
+  background: #0b5d9a;
+  color: white;
+}
+
+#app-01 .boton--primario:hover {
+  background: #0b315c;
+}
+
+#app-01 .boton--secundario {
+  background: white;
+  border-color: #b9c8d9;
+  color: #183b63;
+}
+
+#app-01 .boton--secundario:hover {
+  background: #edf5fc;
+  border-color: #6ba8d8;
+}
+
+#app-01 .boton--peligro {
+  background: white;
+  border-color: #b42318;
+  color: #b42318;
+}
+
+#app-01 .boton--peligro:hover {
+  background: #fdecea;
+}
+
+/* Tarjeta del perfil registrado */
+#app-01 .perfil-tarjeta {
+  margin-top: 24px;
+  background: white;
+  border: 1px solid #dfe7f0;
+  border-left: 4px solid #0b5d9a;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 8px 24px #1a365d0c;
+}
+
+#app-01 .perfil-tarjeta-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+#app-01 .perfil-tarjeta h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #0b315c;
+}
+
+#app-01 .perfil-datos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+}
+
+#app-01 .perfil-datos dt {
+  color: #56677b;
+  font-weight: 700;
+}
+
+#app-01 .perfil-datos dd {
+  margin: 0;
+  color: #172033;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Mensaje general del módulo (fuera de #app-01, pero exclusivo del módulo 01) */
+#resultado-01.resultado--exito,
+#resultado-01.resultado--error {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+#resultado-01.resultado--exito {
+  background: #e8f5ec;
+  border-color: #1a7f37;
+  color: #1a7f37;
+}
+
+#resultado-01.resultado--error {
+  background: #fdecea;
+  border-color: #b42318;
+  color: #b42318;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  #app-01 {
+    padding: 16px;
+  }
+
+  #app-01 .perfil-form {
+    grid-template-columns: 1fr;
+  }
+
+  #app-01 .acciones .boton {
+    flex: 1 1 100%;
+  }
+
+  #app-01 .perfil-datos {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  #app-01 .perfil-datos dd {
+    margin-bottom: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app-01 *,
+  #resultado-01 {
+    transition: none !important;
+  }
+}

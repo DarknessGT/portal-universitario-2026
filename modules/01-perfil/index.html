@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 01 - Perfil</title>
   <link rel="stylesheet" href="../../css/estilos.css">
+  <link rel="stylesheet" href="perfil.css">
 </head>
 <body>
   <main class="module-page">
@@ -14,14 +15,82 @@
       <h1>Perfil</h1>
       <p><strong>Actividad:</strong> Registrar nombre, carné, carrera y semestre.</p>
 
-      <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
-      </div>
-
       <div id="app-01" class="student-area">
-        <!-- TODO ESTUDIANTE 01: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <form id="form-perfil-01" class="perfil-form" novalidate>
+          <h2 class="perfil-titulo">Datos del estudiante</h2>
+          <p class="perfil-descripcion">Los campos marcados con <span class="obligatorio" aria-hidden="true">*</span> son obligatorios.</p>
+
+          <div class="campo campo--completo">
+            <label for="nombre-01">Nombre completo <span class="obligatorio" aria-hidden="true">*</span></label>
+            <input id="nombre-01" type="text" maxlength="60" autocomplete="name" placeholder="Nombre y apellido" required aria-describedby="error-nombre-01">
+            <small id="error-nombre-01" class="campo-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="carne-01">Carné <span class="obligatorio" aria-hidden="true">*</span></label>
+            <input id="carne-01" type="text" maxlength="15" autocomplete="off" placeholder="0000-00-0000" required aria-describedby="ayuda-carne-01 error-carne-01">
+            <small id="ayuda-carne-01" class="campo-ayuda">Formato: 0000-00-000 (último bloque de 3 a 6 dígitos).</small>
+            <small id="error-carne-01" class="campo-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="carrera-01">Carrera <span class="obligatorio" aria-hidden="true">*</span></label>
+            <select id="carrera-01" required aria-describedby="error-carrera-01">
+              <option value="">Seleccione una carrera…</option>
+              <option value="Ingeniería en Sistemas">Ingeniería en Sistemas</option>
+              <option value="Ingeniería Civil">Ingeniería Civil</option>
+              <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+              <option value="Administración de Empresas">Administración de Empresas</option>
+              <option value="Contaduría Pública">Contaduría Pública</option>
+              <option value="Derecho">Derecho</option>
+            </select>
+            <small id="error-carrera-01" class="campo-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="semestre-01">Semestre <span class="obligatorio" aria-hidden="true">*</span></label>
+            <select id="semestre-01" required aria-describedby="error-semestre-01">
+              <option value="">Seleccione un semestre…</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+            <small id="error-semestre-01" class="campo-error"></small>
+          </div>
+
+          <div class="acciones">
+            <button id="guardar-01" type="submit" class="boton boton--primario">Guardar perfil</button>
+            <button id="limpiar-01" type="button" class="boton boton--secundario">Limpiar</button>
+          </div>
+        </form>
+
+        <section id="tarjeta-01" class="perfil-tarjeta" aria-labelledby="tarjeta-titulo-01" hidden>
+          <div class="perfil-tarjeta-encabezado">
+            <h2 id="tarjeta-titulo-01">Perfil registrado</h2>
+            <span class="student-badge">Estudiante</span>
+          </div>
+          <dl class="perfil-datos">
+            <dt>Nombre</dt>
+            <dd id="perfil-nombre-01"></dd>
+            <dt>Carné</dt>
+            <dd id="perfil-carne-01"></dd>
+            <dt>Carrera</dt>
+            <dd id="perfil-carrera-01"></dd>
+            <dt>Semestre</dt>
+            <dd id="perfil-semestre-01"></dd>
+          </dl>
+          <div class="acciones">
+            <button id="editar-01" type="button" class="boton boton--secundario">Editar</button>
+            <button id="eliminar-01" type="button" class="boton boton--peligro">Eliminar</button>
+          </div>
+        </section>
       </div>
 
       <p id="resultado-01" class="result" aria-live="polite"></p>
