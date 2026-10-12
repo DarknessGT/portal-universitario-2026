@@ -167,7 +167,7 @@
 
 /* Tarjeta del perfil registrado */
 #app-01 .perfil-tarjeta {
-  margin-top: 24px;
+  margin: 0;
   background: white;
   border: 1px solid #dfe7f0;
   border-left: 4px solid #0b5d9a;
