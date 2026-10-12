@@ -4,30 +4,227 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Módulo 22 - Contraseña</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../css/estilos.css">
+  <style>
+    #app-22 { --navy:#0a2d5e; --teal:#1fb5a0; --amber:#fca311; --soft:#f1f6fb; }
+
+    /* Banner portal */
+    .banner-22 { background:linear-gradient(110deg,#0a2d5e 0%,#0d4a86 55%,#1166a6 100%); color:#fff; border-radius:1.25rem; padding:2.75rem 2.5rem; margin:1rem 0 1.75rem; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }
+    .banner-22 .eyebrow { display:block; font-size:.85rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.6rem; background:none; padding:0; color:#fff; }
+    .banner-22 h1 { font-size:clamp(2.2rem,5.5vw,4rem); font-weight:800; letter-spacing:-.02em; line-height:1.05; margin:0 0 1rem; color:#fff; }
+    .banner-22 .sub { font-size:1.1rem; margin:0 0 1.5rem; max-width:62ch; color:#fff; }
+    .banner-22 .pill { display:inline-block; padding:.55rem 1.2rem; border-radius:99px; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3); font-size:1.05rem; margin:0 .5rem .5rem 0; transition:background .2s, transform .2s; }
+    .banner-22 .pill:hover { background:rgba(255,255,255,.26); transform:translateY(-2px); }
+
+    /* Tarjetas de consejos */
+    #app-22 .tip { border:0; border-radius:1rem; background:var(--soft); height:100%; transition:transform .25s, box-shadow .25s; }
+    #app-22 .tip:hover { transform:translateY(-6px); box-shadow:0 14px 28px rgba(20,33,61,.15); }
+    #app-22 .tip .ico { width:3rem; height:3rem; border-radius:.9rem; display:grid; place-items:center; font-size:1.5rem; background:#fff; margin-bottom:.75rem; }
+    #app-22 .tip.bad .ico { background:#ffe3e3; }
+    #app-22 .tip.good .ico { background:#d9f7f0; }
+
+    /* Acordeón */
+    #app-22 .accordion-item { border:0; border-radius:1rem !important; margin-bottom:.75rem; overflow:hidden; box-shadow:0 2px 10px rgba(20,33,61,.08); }
+    #app-22 .accordion-button { font-weight:700; }
+    #app-22 .accordion-button:not(.collapsed) { background:var(--navy); color:#fff; box-shadow:none; }
+    #app-22 .accordion-button:not(.collapsed)::after { filter:brightness(0) invert(1); }
+
+    /* Ejemplos clicables */
+    #app-22 .ejemplo { border:2px dashed #c3d0e0; border-radius:.9rem; background:#fff; padding:.6rem .9rem; font-family:ui-monospace,Consolas,monospace; width:100%; text-align:left; transition:all .2s; }
+    #app-22 .ejemplo:hover { border-style:solid; border-color:var(--teal); transform:scale(1.02); }
+    #app-22 .ejemplo small { display:block; font-family:system-ui,sans-serif; color:#6b7a90; }
+
+    /* Validador */
+    #app-22 .validador-wrap { position:sticky; top:1rem; }
+    #app-22 #validador-22 { border:0; border-radius:1.25rem; box-shadow:0 18px 40px rgba(20,33,61,.18); border-top:6px solid #c3d0e0; transition:border-color .4s, box-shadow .4s; }
+    #app-22 #validador-22[data-nivel="1"] { border-top-color:#dc3545; box-shadow:0 18px 40px rgba(220,53,69,.2); }
+    #app-22 #validador-22[data-nivel="2"] { border-top-color:#fd7e14; box-shadow:0 18px 40px rgba(253,126,20,.2); }
+    #app-22 #validador-22[data-nivel="3"] { border-top-color:#0dcaf0; box-shadow:0 18px 40px rgba(13,202,240,.2); }
+    #app-22 #validador-22[data-nivel="4"] { border-top-color:#1fb5a0; box-shadow:0 18px 40px rgba(31,181,160,.28); }
+    #app-22 #password-22 { font-size:1.1rem; }
+    #app-22 #password-22:focus { border-color:var(--teal); box-shadow:0 0 0 .25rem rgba(31,181,160,.25); }
+    #app-22 #progress-22 { border-radius:99px; background:#e6edf5; }
+    #app-22 #barra-22 { border-radius:99px; transition:width .45s cubic-bezier(.2,.8,.2,1), background-color .3s; }
+    #app-22 #nivel-22 { transition:color .3s; }
+    #app-22 #requisitos-22 li { padding:.35rem .6rem; border-radius:.6rem; transition:background .3s, transform .3s; display:flex; gap:.5rem; align-items:center; }
+    #app-22 #requisitos-22 li.text-success { background:#e7f8f4; transform:translateX(4px); font-weight:600; }
+    #app-22 #requisitos-22 .icono { display:inline-grid; place-items:center; width:1.4rem; height:1.4rem; border-radius:50%; background:#e6edf5; font-size:.75rem; transition:all .3s; }
+    #app-22 #requisitos-22 li.text-success .icono { background:var(--teal); color:#fff; transform:scale(1.2) rotate(360deg); }
+    #app-22 #validar-22 { background:var(--navy); border:0; border-radius:.9rem; padding:.75rem; font-weight:700; transition:transform .15s, background .2s; }
+    #app-22 #validar-22:hover { background:#0d4a86; transform:translateY(-2px); }
+    #app-22 #validar-22:active { transform:scale(.97); }
+
+    #resultado-22:not(:empty) { padding:.9rem 1.1rem; border-radius:.9rem; background:var(--soft); margin-top:1.25rem; font-weight:600; animation:aparece .4s ease; }
+    @keyframes aparece { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
+
+    @media (prefers-reduced-motion: reduce) { #app-22 *, #resultado-22 { animation:none !important; transition:none !important; } }
+    @media (max-width:991px) { #app-22 .validador-wrap { position:static; } }
+  </style>
 </head>
 <body>
   <main class="module-page">
     <a class="back-link" href="../../index.html">← Volver al portal</a>
     <section class="module-workspace">
-      <span class="student-badge">Estudiante 22</span>
-      <h1>Contraseña</h1>
-      <p><strong>Actividad:</strong> Evaluar requisitos básicos de una contraseña.</p>
-
-      <div class="notice">
-        <strong>Área de trabajo.</strong>
-        <p>Implemente aquí únicamente la funcionalidad asignada. Mantenga los identificadores claros para facilitar las pruebas automatizadas.</p>
-      </div>
+      <header class="banner-22">
+        <span class="eyebrow">Módulo 22 · Estudiante 22</span>
+        <h1>Contraseña</h1>
+        <p class="sub"><strong>Actividad:</strong> Evaluar requisitos básicos de una contraseña. Aprende a crear claves seguras y ponlas a prueba en tiempo real.</p>
+        <span class="pill">7 requisitos</span>
+        <span class="pill">12+ caracteres ideales</span>
+        <span class="pill">Validación en tiempo real</span>
+      </header>
 
       <div id="app-22" class="student-area">
-        <!-- TODO ESTUDIANTE 22: agregue aquí la interfaz de su módulo -->
-        <p class="placeholder">Módulo pendiente de implementación.</p>
+        <div class="container-fluid px-0">
+          <div class="row g-4">
+
+            <!-- BLOG -->
+            <article class="col-lg-7" id="blog-22">
+              <h3 class="h4 mb-3">Cómo crear una contraseña segura</h3>
+              <p>La mayoría de las cuentas se pierden por contraseñas cortas, predecibles o repetidas, no por ataques sofisticados. Estas son las claves:</p>
+
+              <div class="row g-3 mb-4">
+                <div class="col-sm-6">
+                  <div class="card tip good"><div class="card-body">
+                    <div class="ico">✅</div>
+                    <h4 class="h6 fw-bold">Lo que debe tener</h4>
+                    <ul class="small mb-0 ps-3">
+                      <li>12 caracteres o más</li>
+                      <li>Mayúsculas, minúsculas, números y símbolos</li>
+                      <li>Una clave distinta por servicio</li>
+                    </ul>
+                  </div></div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card tip bad"><div class="card-body">
+                    <div class="ico">🚫</div>
+                    <h4 class="h6 fw-bold">Lo que debes evitar</h4>
+                    <ul class="small mb-0 ps-3">
+                      <li>Nombres y fechas de nacimiento</li>
+                      <li>Secuencias como <code>123456</code> o <code>qwerty</code></li>
+                      <li>Reutilizar la misma clave</li>
+                    </ul>
+                  </div></div>
+                </div>
+              </div>
+
+              <div class="accordion" id="acordeon-22">
+                <div class="accordion-item">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1-22" aria-expanded="true">💬 Una frase de paso es mejor que una palabra</button>
+                  </h4>
+                  <div id="c1-22" class="accordion-collapse collapse show" data-bs-parent="#acordeon-22">
+                    <div class="accordion-body">Une cuatro o más palabras al azar y añade un número y un símbolo. Por ejemplo, <code>luna-cafe-tren-nube-47!</code> es larga, fácil de recordar y difícil de adivinar.</div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-22" aria-expanded="false">🎭 Las sustituciones obvias no engañan a nadie</button>
+                  </h4>
+                  <div id="c2-22" class="accordion-collapse collapse" data-bs-parent="#acordeon-22">
+                    <div class="accordion-body">Cambiar la "a" por "@" o la "o" por "0" (<code>P@ssw0rd</code>) es un truco que los atacantes ya prueban primero. Es mejor aumentar la longitud que disfrazar una palabra común.</div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h4 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3-22" aria-expanded="false">🧰 Hábitos que completan la protección</button>
+                  </h4>
+                  <div id="c3-22" class="accordion-collapse collapse" data-bs-parent="#acordeon-22">
+                    <div class="accordion-body">
+                      <ul class="mb-0">
+                        <li>Usa un gestor de contraseñas para guardarlas.</li>
+                        <li>Activa la verificación en dos pasos donde esté disponible.</li>
+                        <li>Cambia de inmediato una contraseña si sospechas que se filtró.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h4 class="h6 fw-bold mt-4">Pruébalo tú mismo</h4>
+              <p class="small text-body-secondary mb-2">Haz clic en un ejemplo para enviarlo al validador.</p>
+              <div class="row g-2" id="ejemplos-22">
+                <div class="col-sm-4"><button type="button" class="ejemplo" data-valor="123456"><small>Muy débil</small>123456</button></div>
+                <div class="col-sm-4"><button type="button" class="ejemplo" data-valor="Gato2024"><small>Mejorable</small>Gato2024</button></div>
+                <div class="col-sm-4"><button type="button" class="ejemplo" data-valor="luna-cafe-tren-nube-47!"><small>Fuerte</small>luna-cafe-tren…</button></div>
+              </div>
+            </article>
+
+            <!-- VALIDADOR -->
+            <aside class="col-lg-5">
+              <div class="validador-wrap">
+                <div class="card" id="validador-22" data-nivel="0">
+                  <div class="card-body p-4">
+                    <h3 class="h5 card-title">🛡️ Prueba tu contraseña</h3>
+                    <p class="small text-body-secondary">Se evalúa en tu navegador y no se envía a ningún sitio.</p>
+
+                    <label for="password-22" class="form-label">Contraseña</label>
+                    <div class="input-group mb-3">
+                      <input type="password" id="password-22" class="form-control" autocomplete="off" placeholder="Escribe una contraseña">
+                      <button type="button" id="toggle-22" class="btn btn-outline-secondary" aria-pressed="false">Mostrar</button>
+                    </div>
+
+                    <div class="progress mb-1" role="progressbar" aria-label="Fortaleza de la contraseña" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-22" style="height: 12px;">
+                      <div id="barra-22" class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p id="nivel-22" class="small fw-semibold mb-3">Escribe para evaluar</p>
+
+                    <ul class="list-unstyled small mb-3" id="requisitos-22">
+                      <li data-req="longitud"><span class="icono">✗</span> Mínimo 8 caracteres (ideal: 12 o más)</li>
+                      <li data-req="mayuscula"><span class="icono">✗</span> Una letra mayúscula</li>
+                      <li data-req="minuscula"><span class="icono">✗</span> Una letra minúscula</li>
+                      <li data-req="numero"><span class="icono">✗</span> Un número</li>
+                      <li data-req="simbolo"><span class="icono">✗</span> Un símbolo (por ejemplo ! ? # $ %)</li>
+                      <li data-req="espacios"><span class="icono">✗</span> Sin espacios al inicio o al final</li>
+                      <li data-req="comun"><span class="icono">✗</span> No es una contraseña común</li>
+                    </ul>
+
+                    <button type="button" id="validar-22" class="btn btn-primary w-100">Validar contraseña</button>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+          </div>
+        </div>
       </div>
 
       <p id="resultado-22" class="result" aria-live="polite"></p>
     </section>
   </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../../js/app.js"></script>
   <script src="modulo.js"></script>
+  <script>
+    // Dinamismo visual (no toca la lógica de modulo.js)
+    (function () {
+      var card = document.getElementById('validador-22');
+      var barra = document.getElementById('barra-22');
+      var nivel = document.getElementById('nivel-22');
+      var input = document.getElementById('password-22');
+      if (!card || !barra || !input) return;
+
+      // La tarjeta cambia de color según la fortaleza
+      function sincronizar() {
+        var w = parseInt(barra.style.width, 10) || 0;
+        var n = w === 0 ? 0 : w <= 20 ? 1 : w <= 40 ? 2 : w <= 60 ? 3 : 4;
+        card.setAttribute('data-nivel', n);
+        nivel.style.color = ['#6b7a90', '#dc3545', '#fd7e14', '#0aa2c0', '#168f7e'][n];
+      }
+      new MutationObserver(sincronizar).observe(barra, { attributes: true, attributeFilter: ['style', 'class'] });
+
+      // Ejemplos clicables
+      document.querySelectorAll('#ejemplos-22 .ejemplo').forEach(function (b) {
+        b.addEventListener('click', function () {
+          input.value = b.dataset.valor;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          input.focus();
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
